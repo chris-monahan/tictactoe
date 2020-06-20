@@ -1,3 +1,8 @@
+:root{
+  --grid-x-num:3;
+  --grid-y-num:3;
+}
+
 body, html {
     margin: 0px;
     padding: 0px
@@ -19,7 +24,7 @@ ol, ul {
 .board{
   padding-top:8vh;
   display:inline-grid;
-  grid-template-columns: 30% 30% 30%;
+  grid-template-columns:repeat(var(--grid-x-num), auto);
 }
 
 .status {
@@ -46,6 +51,7 @@ ol, ul {
 }
 
 .squareWrapper.colTop{
+  grid-column-start: auto;
   border-top: 0px;
 }
 

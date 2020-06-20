@@ -6,7 +6,7 @@ import Game from './Game';
 // ========================================
 
 ReactDOM.render(
-  <Game />,
+  <Game  sizeX={3} sizeY={3}/>,
   document.getElementById('root')
 );
   

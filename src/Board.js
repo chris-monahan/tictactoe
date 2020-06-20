@@ -1,7 +1,9 @@
 import React from 'react';
 
 class Board extends React.Component {
-    renderSquare(i, placeFlags) {
+    renderSquare(pointX, pointY, placeFlags) {
+
+      let squareIndex = (pointY * this.props.squares.length) + pointX;
 
       let classString = "squareWrapper" + 
             (placeFlags.colTop ? ' colTop' : '') +
@@ -9,17 +11,17 @@ class Board extends React.Component {
             (placeFlags.rowStart ? ' rowStart' : '') +
             (placeFlags.rowEnd ? ' rowEnd' : '');
 
-      return <div id={"boardSquare_" + i} className={classString}>
-        <button className="square" onClick={() => this.props.onClick(i)}>
-          {this.props.squares[i]}
+      return <div id={"boardSquare_" + squareIndex} className={classString}>
+        <button className="square" onClick={() => this.props.onClick(pointX, pointY, squareIndex)}>
+          {this.props.squares[pointY][pointX]}
         </button>
       </div>;
     }
 
-    renderRow(length, squareIndex, placeFlags, wrap){
+    renderRow(length, rowNum, placeFlags, wrap){
       let rowSquares = [];
       for(let i = 0; i < length; i++){
-        rowSquares[i] = this.renderSquare(squareIndex + i, Object.assign({
+        rowSquares[i] = this.renderSquare(i, rowNum, Object.assign({
           rowStart: i === 0, 
           rowEnd: i === (length - 1)
         }, placeFlags));
@@ -35,11 +37,17 @@ class Board extends React.Component {
     }
   
     render() {
+      let squares = this.props.squares; 
+      let rows = [];
+
+      for(let i = 0; i < squares.length; i++){
+          let placeFlags = {colTop: i === 0, colBottom: i === squares.length}
+          rows[i] = this.renderRow(squares[i].length, i, placeFlags);
+      }
+
       return (
         <div class="board">
-            {this.renderRow(3, 0, {colTop: true, colBottom: false})}
-            {this.renderRow(3, 3, {colTop: false, colBottom: false})}
-            {this.renderRow(3, 6 ,{colTop: false, colBottom: true})}
+            {rows}
         </div>
       );
     }

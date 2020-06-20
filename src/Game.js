@@ -5,25 +5,39 @@ class Game extends React.Component {
 
     constructor(props){
       super(props);
+
+      let gridArray = Array(props.sizeY).fill(null);
+      for(let i = 0; i < props.sizeY; i++){
+        gridArray[i] = Array(props.sizeX).fill(null);
+      }
+
+      this.gridArrayTemplate = gridArray;
+
       this.state = {
         history: [{
-          squares: Array(9).fill(null),
+          squares: this.gridArrayTemplate,
         }],
         stepNumber: 0,
         xIsNext: true,
       }
     }
   
-    handleClick(i){
+    handleClick(pointX, pointY, squareIndex){
       const history = this.state.history.slice(0, this.state.stepNumber + 1);    
       const current = history[history.length - 1];    
-      const squares = current.squares.slice();
-      
-      if(calculateWinner(squares) || squares[i]) {
+      const squares = current.squares.slice().map((value) =>{
+        return value.slice()
+      });
+
+      const flatSquares = squares.reduce((acc, cur) => {
+        return acc.concat(cur)
+      },[]);
+
+      if(calculateWinner(flatSquares) || flatSquares[squareIndex]) {
         return;
       }
   
-      squares[i] =  this.state.xIsNext ? 'X' : 'O';
+      squares[pointY][pointX] =  this.state.xIsNext ? 'X' : 'O';
       this.setState({
         history: history.concat([{
           squares: squares,
@@ -43,7 +57,12 @@ class Game extends React.Component {
     render() {
       const history = this.state.history;
       const current = history[this.state.stepNumber];
-      const winner = calculateWinner(current.squares);
+      
+      const flatSquares = current.squares.reduce((acc, cur) => {
+        return acc.concat(cur)
+      },[]);
+
+      const winner = calculateWinner(flatSquares);
   
       const moves = history.map((step, move) => {
         const desc = move ?
@@ -68,7 +87,7 @@ class Game extends React.Component {
           <div className="game-board">
             <Board 
               squares={current.squares}
-              onClick={(i) => this.handleClick(i)}
+              onClick={(pointX, pointY, squareIndex) => this.handleClick(pointX, pointY, squareIndex)}
               />
           </div>
           <div className="game-info">
