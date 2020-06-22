@@ -1,12 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Game from './Game';
+import Game from './UIComponents/Game';
+import init from './init.js';
+import config from './config.js';
+import _ from 'lodash';
 
 // ========================================
+if(typeof Window !== undefined){
+  Window.global = Window;
+}
+
+global._ = _;
+global.config = config;
+
+console.log(_.get(config, "sidebar.enabled"));
+
+init(config);
+
+
 
 ReactDOM.render(
-  <Game  sizeX={3} sizeY={3}/>,
+  <Game  sizeX={config.board.sizeX} sizeY={config.board.sizeY}/>,
   document.getElementById('root')
 );
   
