@@ -1,5 +1,6 @@
 import React from 'react';
 import Board from './Board';
+import Sidebar from './Sidebar';
 
 class Game extends React.Component {
 
@@ -91,8 +92,9 @@ class Game extends React.Component {
               />
           </div>
           <div className="game-info">
-            <div>{status}</div>
-            <ol>{moves}</ol>
+            <Sidebar 
+              status={status}
+              moves={moves} />
           </div>
         </div>
       );
