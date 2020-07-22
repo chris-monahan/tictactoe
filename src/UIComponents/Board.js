@@ -1,4 +1,6 @@
 import React from 'react';
+import cross from "../cross.svg";
+import nought from "../nought.svg"
 
 class Board extends React.Component {
     renderSquare(pointX, pointY, placeFlags) {
@@ -11,9 +13,19 @@ class Board extends React.Component {
             (placeFlags.rowStart ? ' rowStart' : '') +
             (placeFlags.rowEnd ? ' rowEnd' : '');
 
+      let playPiece;
+
+      if (this.props.squares[pointY][pointX] === 'X'){
+        playPiece = <img src={cross} class="playPiece cross"></img>  
+      } else if (this.props.squares[pointY][pointX] === 'O') {
+        playPiece = <img src={nought} class="playPiece nought"></img>
+      } else {
+        playPiece = <div class="playPiece blank"></div>
+      }
+
       return <div id={"boardSquare_" + squareIndex} className={classString}>
         <button className="square" onClick={() => this.props.onClick(pointX, pointY, squareIndex)}>
-          {this.props.squares[pointY][pointX]}
+          {playPiece}
         </button>
       </div>;
     }

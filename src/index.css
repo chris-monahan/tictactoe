@@ -75,3 +75,10 @@ ol, ul {
   border-left:4px solid black;
   grid-column: 2;
 }
+
+.playPiece{
+  margin:0 auto;
+  display:block;
+  max-height:120px;
+  max-width:120px;
+}
