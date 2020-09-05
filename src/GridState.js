@@ -1,3 +1,5 @@
+import cloneDeep from "lodash/cloneDeep"
+
 export default class GridState {
     constructor(gridSizeX, gridSizeY){
 
@@ -12,9 +14,13 @@ export default class GridState {
     }
 
     setGridData(gridData, isTransposed){
-        this.gridArray = gridData.reverse();
-
+        this.gridArray = cloneDeep(gridData).reverse();
     }
+
+    getGridData(){
+        return cloneDeep(this.gridArray).reverse();
+    }
+
 
     findContinuousSequences(minNum, maxNum, includeDiagonal){
         //we are going to cycle through all of the elements and check for adjacents
@@ -180,7 +186,7 @@ export default class GridState {
     }
 
     getRow(yPos){
-        return this.gridArray[xPos - 1];
+        return this.gridArray[yPos - 1];
     }
 
     getSquareVal(xPos, yPos){
@@ -191,6 +197,15 @@ export default class GridState {
         }
         //console.log("Querying grid point (X:"+xPos+" , Y:"+yPos+") Value: " +  this.gridArray[yPos - 1][xPos - 1]);
         
+    }
+
+    setSquareVal(xPos, yPos, value){
+        if(this.coordinateExists(xPos,yPos)){
+            this.gridArray[yPos - 1][xPos - 1] = value;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     coordinateExists(xPos, yPos){
@@ -280,7 +295,7 @@ export default class GridState {
 
 }
 
-function splitIntoContinuousSequences(srcArray){
+/*function splitIntoContinuousSequences(srcArray){
     let returnArray = [];
     let currentVal;
     let previousVal;
@@ -295,4 +310,4 @@ function splitIntoContinuousSequences(srcArray){
     }
 
     return returnArray;
-}
+}*/

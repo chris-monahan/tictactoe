@@ -15,9 +15,9 @@ class Board extends React.Component {
 
       let playPiece;
 
-      if (this.props.squares[pointY][pointX] === 'X'){
+      if (this.props.squares.getSquareVal(pointX, pointY) === 'X'){
         playPiece = <img src={cross} class="playPiece cross"></img>  
-      } else if (this.props.squares[pointY][pointX] === 'O') {
+      } else if (this.props.squares.getSquareVal(pointX, pointY) === 'O') {
         playPiece = <img src={nought} class="playPiece nought"></img>
       } else {
         playPiece = <div class="playPiece blank"></div>
@@ -33,7 +33,7 @@ class Board extends React.Component {
     renderRow(length, rowNum, placeFlags, wrap){
       let rowSquares = [];
       for(let i = 0; i < length; i++){
-        rowSquares[i] = this.renderSquare(i, rowNum, Object.assign({
+        rowSquares[i] = this.renderSquare(i + 1, rowNum + 1, Object.assign({
           rowStart: i === 0, 
           rowEnd: i === (length - 1)
         }, placeFlags));
@@ -52,9 +52,9 @@ class Board extends React.Component {
       let squares = this.props.squares; 
       let rows = [];
 
-      for(let i = 0; i < squares.length; i++){
+      for(let i = 0; i < squares.sizeX; i++){
           let placeFlags = {colTop: i === 0, colBottom: i === squares.length}
-          rows[i] = this.renderRow(squares[i].length, i, placeFlags);
+          rows[i] = this.renderRow(squares.sizeY, i, placeFlags);
       }
 
       return (

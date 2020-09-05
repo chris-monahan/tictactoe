@@ -1,65 +1,67 @@
 import React from 'react';
 import Board from './Board';
 import Sidebar from './Sidebar';
+import GridState from '../GridState';
 
 class Game extends React.Component {
 
     constructor(props){
       super(props);
 
-      let gridArray = Array(props.sizeY).fill(null);
-      for(let i = 0; i < props.sizeY; i++){
-        gridArray[i] = Array(props.sizeX).fill(null);
-      }
-
-      this.gridArrayTemplate = gridArray;
+      this.gridStateTemplate = new GridState(3,3);
 
       this.state = {
         history: [{
-          squares: this.gridArrayTemplate,
+          squares: this.gridStateTemplate.getGridData(),
         }],
+        currentGridState:this.gridStateTemplate,
         stepNumber: 0,
         xIsNext: true,
       }
     }
   
     handleClick(pointX, pointY, squareIndex){
-      const history = this.state.history.slice(0, this.state.stepNumber + 1);    
-      const current = history[history.length - 1];    
-      const squares = current.squares.slice().map((value) =>{
-        return value.slice()
-      });
+      const history = this.state.history.slice(0, this.state.stepNumber + 1);  
+      const currentGridState = this.state.currentGridState;
 
-      const flatSquares = squares.reduce((acc, cur) => {
-        return acc.concat(cur)
-      },[]);
+      if(currentGridState.getSquareVal(pointX,pointY) !== null){
+        return;
+      }
 
-      if(checkWinner(current) || flatSquares[squareIndex]) {
+      if(checkWinner(currentGridState)){
         return;
       }
   
-      squares[pointY][pointX] =  this.state.xIsNext ? 'X' : 'O';
+      currentGridState.setSquareVal(pointX, pointY, this.state.xIsNext ? 'X' : 'O');
       this.setState({
         history: history.concat([{
-          squares: squares,
+          squares: currentGridState.getGridData(),
         }]),
+        currentGridState:currentGridState,
         stepNumber: history.length,
         xIsNext: !this.state.xIsNext,
       });
     }
   
     jumpTo(step){
+      const prevHistory = this.state.history.slice(0, step + 1)
+      const targetStep = prevHistory[prevHistory.length - 1]
+      const stepStateData = targetStep.squares;
+      const currentGridState = this.state.currentGridState;
+
+      currentGridState.setGridData(stepStateData);
       this.setState({
         stepNumber: step,
         xIsNext: (step % 2) === 0,
+        currentGridState: currentGridState,
       })
     }
   
     render() {
       const history = this.state.history;
-      const current = history[this.state.stepNumber];
+      const currentGridState = this.state.currentGridState;
 
-      const winner = checkWinner(current);
+      const winner = checkWinner(currentGridState);
   
       const moves = history.map((step, move) => {
         const desc = move ?
@@ -83,7 +85,7 @@ class Game extends React.Component {
         <div className="game">
           <div className="game-board">
             <Board 
-              squares={current.squares}
+              squares={currentGridState}
               onClick={(pointX, pointY, squareIndex) => this.handleClick(pointX, pointY, squareIndex)}
               />
           </div>
@@ -98,13 +100,14 @@ class Game extends React.Component {
   }
 
 
-  function checkWinner(squares) {
-    
-  }
-
-
-  function getGridAdjacents(coords){
-    
+  function checkWinner(gridState) {
+    const sequences = gridState.findContinuousSequences(3);
+    for(let i = 0; i < sequences.length; i++){
+      if(sequences[i].length > 0){
+        return sequences[i][0][0];
+      }
+    }
+    return null;
   }
 
 
