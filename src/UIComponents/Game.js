@@ -8,7 +8,7 @@ class Game extends React.Component {
     constructor(props){
       super(props);
 
-      this.gridStateTemplate = new GridState(3,3);
+      this.gridStateTemplate = new GridState(window.config.board.sizeX,window.config.board.sizeY);
 
       this.state = {
         history: [{
@@ -88,6 +88,7 @@ class Game extends React.Component {
               squares={currentGridState}
               onClick={(pointX, pointY, squareIndex) => this.handleClick(pointX, pointY, squareIndex)}
               />
+
           </div>
           <div className="game-info">
             <Sidebar 
@@ -101,7 +102,7 @@ class Game extends React.Component {
 
 
   function checkWinner(gridState) {
-    const sequences = gridState.findContinuousSequences(3);
+    const sequences = gridState.findContinuousSequences(window.config.board.sizeX);
     for(let i = 0; i < sequences.length; i++){
       if(sequences[i].length > 0){
         return sequences[i][0][0];
