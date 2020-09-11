@@ -1,3 +1,12 @@
+# Simple React TicTacToe 
+
+A basic TicTacToe game written in React. This started as an exercise in following the Intro to React tutorial (https://reactjs.org/tutorial/tutorial.html) and recording the steps in a git history. Since then I looked at the result and thought "This is really basic and doesn't really justify the use of something like React" so, as an exercise, I started creating something more sophisticated that merits the use of a UI library like React.
+
+I'm considering future ambitions to develop this into a suite of classic board games; but one step at a time.
+
+-----
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
