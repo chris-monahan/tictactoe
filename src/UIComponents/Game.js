@@ -83,7 +83,7 @@ class Game extends React.Component {
   
       return (
         <div className="game">
-          <div className="game-board">
+          <div className="game-board" id="game-board">
             <Board 
               squares={currentGridState}
               onClick={(pointX, pointY, squareIndex) => this.handleClick(pointX, pointY, squareIndex)}

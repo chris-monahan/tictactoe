@@ -1,6 +1,5 @@
 # TODO
 
-* Adjust scaling of grid size to be truly responsive
 * Add play status indicator below the board
 * Change sidebar to be collapsible
 * Add stage indicator to history (highlight the currently active stage)
@@ -12,4 +11,4 @@
 
 # DONE
 
-None yet
+* Adjust scaling of grid size to be truly responsive

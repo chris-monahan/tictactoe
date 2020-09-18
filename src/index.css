@@ -1,6 +1,9 @@
+/*Defaults for root properties - these should get overridden atm*/
 :root{
   --grid-x-num:3;
   --grid-y-num:3;
+  --grid-square-width:30vh;
+  --grid-square-height:26vh;
 }
 
 body, html {
@@ -18,13 +21,16 @@ ol, ul {
 
 .game-board{
   text-align:center;
-
+  max-height:100vh;
 }
 
 .board{
+  width:auto;
+  height:auto;
   padding-top:8vh;
   display:inline-grid;
-  grid-template-columns:repeat(var(--grid-x-num), auto);
+  grid-template-columns:repeat(var(--grid-x-num), var(--grid-square-width));
+  grid-template-rows:repeat(var(--grid-y-num), var(--grid-square-height));
 }
 
 .status {
@@ -32,9 +38,8 @@ ol, ul {
 }
 
 .square {
-  min-height:26vh;
-  min-width:30vh;
   width:100%;
+  height:100%;
   background-color:white;
   font-size:40px;
   border:0px;
@@ -79,6 +84,6 @@ ol, ul {
 .playPiece{
   margin:0 auto;
   display:block;
-  max-height:120px;
-  max-width:120px;
+  height:calc(var(--grid-square-height) * 0.5);
+  width:calc(var(--grid-square-width) * 0.5);
 }

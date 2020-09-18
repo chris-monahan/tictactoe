@@ -1,6 +1,7 @@
 import React from 'react';
 import cross from "../cross.svg";
 import nought from "../nought.svg"
+import adjustBoardSize from "../adjustBoardSize.fn"
 
 class Board extends React.Component {
     
@@ -67,6 +68,10 @@ class Board extends React.Component {
   
         
       }
+    }
+
+    componentDidMount(){
+      adjustBoardSize();
     }
   }
 
