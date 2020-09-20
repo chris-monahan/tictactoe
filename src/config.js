@@ -4,7 +4,7 @@ export default {
         sizeY:3
     },
     sidebar:{
-        enabled:true,
+        enabled:false,
         components:['playStatus','history'],
         backgroundColor:"blue"
     }

@@ -33,8 +33,9 @@ export default class GridState {
         //and the coords as the rest of the array
         //TODO(?): do this with proper types / classes e.g. Range and Sequence classes
 
-        let sequencesFragmented = Array([],[],[],[]);
-        let sequencesConsolidated = Array([],[],[],[]);
+        //Each sequence is an array with 4 sub-arrays
+        let sequencesFragmented = [ [],[],[],[] ];
+        let sequencesConsolidated = [ [],[],[],[] ];
 
         for(let i = 0; i < gridCoords.length; i++){
             loadAdjacents(i);
@@ -97,7 +98,7 @@ export default class GridState {
             //Iterate through each found pair. 
             //If we match with another pair, start a new consolidated sequence
             //Otherwise if we match with the end of an existing sequence, add to that sequence 
-            let consolidated = Array();
+            let consolidated = [];
             for(let itemIndex = 0; itemIndex < fragmented.length; itemIndex++){
                 let foundFlag = false;
                 let itemPair = fragmented[itemIndex];
@@ -149,7 +150,7 @@ export default class GridState {
     }
 
     getGridCoordinates(){
-        let resultArray = Array();
+        let resultArray = [];
         let pointX = 1;
         let pointY = 1;
         for(let i = 0; i < this.sizeX; i++){

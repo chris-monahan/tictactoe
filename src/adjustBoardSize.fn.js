@@ -2,7 +2,7 @@ import config from "./config";
 
 function adjustBoardSize(){
     let docRoot = document.documentElement;
-    let containingElement = document.getElementById("game-board")
+    let containingElement = document.getElementById("game-board-container")
     let boardWidthLimitOffset = 0.75;
     let boardHeightLimitOffset = 0.75;
 

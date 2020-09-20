@@ -19,7 +19,18 @@ ol, ul {
   padding-left: 30px;
 }
 
-.game-board{
+#game {
+  padding:1em;
+  display: grid;
+  grid-template-columns: auto;
+  min-height: calc(100vh - 2em);
+}
+
+#game.withSidebar{
+  grid-template-columns: auto 300px;
+}
+
+#game-board-container{
   text-align:center;
   max-height:100vh;
 }
@@ -66,13 +77,6 @@ ol, ul {
 
 .kbd-navigation .square:focus {
   background: #ddd;
-}
-
-.game {
-  padding:1em;
-  display: grid;
-  grid-template-columns: auto 300px;
-  min-height: calc(100vh - 2em);
 }
 
 .game-info {

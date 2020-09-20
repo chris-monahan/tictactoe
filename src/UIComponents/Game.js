@@ -2,6 +2,8 @@ import React from 'react';
 import Board from './Board';
 import Sidebar from './Sidebar';
 import GridState from '../GridState';
+import PlayStatus from './PlayStatus'
+import config from '../config';
 
 class Game extends React.Component {
 
@@ -60,41 +62,25 @@ class Game extends React.Component {
     render() {
       const history = this.state.history;
       const currentGridState = this.state.currentGridState;
-
-      const winner = checkWinner(currentGridState);
-  
-      const moves = history.map((step, move) => {
-        const desc = move ?
-        'Go to move#' + move :
-        'Go to game start';
-        return(
-          <li key={move}>
-            <button onClick={() => this.jumpTo(move)}>{desc}</button>
-          </li>
-        );
-      });
-      let status;
-  
-      if (winner) {      
-        status = 'Winner: ' + winner;    
-      } else {      
-        status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');    
-      }
   
       return (
-        <div className="game">
-          <div className="game-board" id="game-board">
+        <div className={`game ${config.sidebar.enabled ? "withSidebar" : ""}`} id="game">
+          <div className="game-board-container" id="game-board-container">
             <Board 
-              squares={currentGridState}
+              gridState={currentGridState}
               onClick={(pointX, pointY, squareIndex) => this.handleClick(pointX, pointY, squareIndex)}
               />
+            <PlayStatus
+              gridState={currentGridState}
+              />  
 
           </div>
+          {config.sidebar.enabled && 
           <div className="game-info">
             <Sidebar 
-              status={status}
-              moves={moves} />
-          </div>
+              history={history}
+              gridState={currentGridState}/>
+          </div> }
         </div>
       );
     }

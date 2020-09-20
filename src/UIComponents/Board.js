@@ -10,7 +10,7 @@ class Board extends React.Component {
   
     render() {
       let thisBoard = this;
-      let squares = this.props.squares; 
+      let squares = this.props.gridState; 
       let rows = [];
 
       for(let i = 0; i < squares.sizeX; i++){
@@ -19,7 +19,7 @@ class Board extends React.Component {
       }
 
       return (
-        <div class="board">
+        <div className="board">
             {rows}
         </div>
       );
@@ -37,9 +37,9 @@ class Board extends React.Component {
         let playPiece;
   
         if (squares.getSquareVal(pointX, pointY) === 'X'){
-          playPiece = <img src={cross} class="playPiece cross"></img>  
+          playPiece = <img src={cross} class="playPiece cross" alt="X"></img>  
         } else if (squares.getSquareVal(pointX, pointY) === 'O') {
-          playPiece = <img src={nought} class="playPiece nought"></img>
+          playPiece = <img src={nought} class="playPiece nought" alt="0"></img>
         } else {
           playPiece = <div class="playPiece blank"></div>
         }
