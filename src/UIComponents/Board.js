@@ -26,26 +26,27 @@ class Board extends React.Component {
 
       function renderSquare(pointX, pointY, placeFlags) {
 
-        let squareIndex = (pointY * squares.length) + pointX;
+        let squareIndex = ((pointY - 1) * squares.sizeX ) + pointX;
   
         let classString = "squareWrapper" + 
               (placeFlags.colTop ? ' colTop' : '') +
               (placeFlags.colBottom ? ' colBottom' : '') +
               (placeFlags.rowStart ? ' rowStart' : '') +
-              (placeFlags.rowEnd ? ' rowEnd' : '');
+              (placeFlags.rowEnd ? ' rowEnd' : '') +
+              " square_X_"+pointX+" square_Y_"+pointY;
   
         let playPiece;
   
         if (squares.getSquareVal(pointX, pointY) === 'X'){
-          playPiece = <img src={cross} class="playPiece cross" alt="X"></img>  
+          playPiece = <img src={cross} className="playPiece cross" alt="X"></img>  
         } else if (squares.getSquareVal(pointX, pointY) === 'O') {
-          playPiece = <img src={nought} class="playPiece nought" alt="0"></img>
+          playPiece = <img src={nought} className="playPiece nought" alt="0"></img>
         } else {
           playPiece = <div class="playPiece blank"></div>
         }
   
         return <div id={"boardSquare_" + squareIndex} className={classString}>
-          <button className="square" onClick={() => thisBoard.props.onClick(pointX, pointY, squareIndex)}>
+          <button className="squareBtn" onClick={() => thisBoard.props.onClick(pointX, pointY, squareIndex)}>
             {playPiece}
           </button>
         </div>;
