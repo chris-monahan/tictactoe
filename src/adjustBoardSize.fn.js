@@ -22,10 +22,10 @@ function adjustBoardSize(){
         
         if(maxBoardHeight > maxBoardWidth){
             boardWidth = maxBoardWidth;
-            boardHeight = boardWidth*0.8;
+            boardHeight = boardWidth*0.9;
         } else {
             boardHeight = maxBoardHeight;
-            boardWidth = boardHeight*1.2;
+            boardWidth = boardHeight*1.1;
         }
 
         squareWidth = boardWidth/config.board.sizeX + "px";

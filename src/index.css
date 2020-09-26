@@ -57,8 +57,8 @@ body{
 }
 
 .squareWrapper {
-  border-top: 3px solid black;
-  border-left: 3px solid black;
+  border-top: 8px solid black;
+  border-left: 8px solid black;
 }
 
 .squareWrapper.rowStart{
