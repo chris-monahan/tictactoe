@@ -7,7 +7,7 @@ class PlayStatus extends React.Component {
       const winner = checkWinner(this.props.gridState);
       let status;
       if (winner) {      
-        status = winner + "is the winner!";    
+        status = winner + " is the winner!";    
       } else if(this.props.gridState.findEmptySquares().length === 0) {
         status = "It's a draw!"
       }

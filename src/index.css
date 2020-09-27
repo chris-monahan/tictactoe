@@ -60,7 +60,8 @@ body.MSIE #game.withSidebar .game-info {
 .board{
   width:auto;
   height:auto;
-  padding-top:8vh;
+  padding-top: 4vh;
+  padding-bottom: 4vh;
   display:inline-grid;
   grid-template-columns:repeat(var(--grid-x-num), var(--grid-square-width));
   grid-template-rows:repeat(var(--grid-y-num), var(--grid-square-height));
@@ -76,6 +77,12 @@ body.MSIE #game.withSidebar .game-info {
   background-color:white;
   font-size:40px;
   border:0px;
+  outline:0px;
+
+}
+
+.playPiece.blank{
+  cursor: pointer;
 }
 
 .squareWrapper {
@@ -136,6 +143,11 @@ body.MSIE #game.withSidebar .game-info {
   float:right;
   background:transparent;
   border:0px;
+  outline:0px;
+}
+
+#playStatus #reset-btn:active{
+  background-color:whitesmoke;
 }
 
 #playStatus #reset-btn:hover{
