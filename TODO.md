@@ -1,6 +1,5 @@
 # TODO
 
-* Add play status indicator below the board
 * Change sidebar to be collapsible
 * Add stage indicator to history (highlight the currently active stage)
 * Show visual of board state in history stage, rather than simply a button
@@ -12,3 +11,4 @@
 # DONE
 
 * Adjust scaling of grid size to be truly responsive
+* Add play status indicator below the board

@@ -91,3 +91,36 @@ body{
   height:calc(var(--grid-square-height) * 0.5);
   width:calc(var(--grid-square-width) * 0.5);
 }
+
+#playStatus{
+  margin: 0 auto;
+  max-width:800px;
+}
+
+#playStatus hr{
+  margin-top:2em;
+  margin-bottom:1em;
+  border: 0px;
+  height: 2px;
+  background-image: linear-gradient(90deg, whitesmoke, grey, black, grey, whitesmoke);
+}
+
+#playStatus .status-msg{
+  font-size:2em;
+  margin:10px;
+}
+
+#playStatus #reset-btn{
+  float:right;
+  background:transparent;
+  border:0px;
+}
+
+#playStatus #reset-btn:hover{
+  cursor: pointer;
+}
+
+#playStatus #reset-btn img{
+  width: 4em;
+  height: 4em;
+}

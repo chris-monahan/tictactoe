@@ -4,6 +4,7 @@ import Sidebar from './Sidebar';
 import GridState from '../GridState';
 import PlayStatus from './PlayStatus'
 import config from '../config';
+import checkWinner from '../checkWinner.fn';
 
 class Game extends React.Component {
 
@@ -72,6 +73,8 @@ class Game extends React.Component {
               />
             <PlayStatus
               gridState={currentGridState}
+              onReset={() => this.jumpTo(0)}
+              xIsNext={this.state.xIsNext}
               />  
 
           </div>
@@ -87,15 +90,7 @@ class Game extends React.Component {
   }
 
 
-  function checkWinner(gridState) {
-    const sequences = gridState.findContinuousSequences(window.config.board.sizeX);
-    for(let i = 0; i < sequences.length; i++){
-      if(sequences[i].length > 0){
-        return sequences[i][0][0];
-      }
-    }
-    return null;
-  }
+  
 
 
   export default Game;

@@ -21,6 +21,13 @@ export default class GridState {
         return cloneDeep(this.gridArray).reverse();
     }
 
+    findEmptySquares(){
+        let gridCoords = this.getGridCoordinates();
+        return gridCoords.filter(coord => {
+            return this.getSquareVal(coord) === null;
+        })
+    }
+
 
     findContinuousSequences(minNum, maxNum, includeDiagonal){
         //we are going to cycle through all of the elements and check for adjacents
@@ -190,7 +197,16 @@ export default class GridState {
         return this.gridArray[yPos - 1];
     }
 
-    getSquareVal(xPos, yPos){
+    getSquareVal(arg1, arg2){
+        let xPos, yPos;
+        if(Array.isArray(arg1)){
+            xPos = arg1[0];
+            yPos = arg1[1];
+        } else {
+            xPos = arg1;
+            yPos = arg2;
+        }
+
         if(this.coordinateExists(xPos,yPos)){
             return this.gridArray[yPos - 1][xPos - 1];
         } else {
