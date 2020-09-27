@@ -54,6 +54,7 @@ body.MSIE #game.withSidebar .game-info {
 #game-board-container{
   text-align:center;
   max-height:100vh;
+  max-width:100vw;
 }
 
 .board{
