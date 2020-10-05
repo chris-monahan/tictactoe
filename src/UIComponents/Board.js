@@ -1,7 +1,7 @@
 import React from 'react';
-import cross from "../cross.svg";
-import nought from "../nought.svg"
-import adjustBoardSize from "../adjustBoardSize.fn"
+import { ReactComponent as Cross } from '../cross.svg';
+import { ReactComponent as Nought } from '../nought.svg';
+import adjustBoardSize from "../adjustBoardSize.fn";
 
 class Board extends React.Component {
     
@@ -38,9 +38,13 @@ class Board extends React.Component {
         let playPiece;
   
         if (squares.getSquareVal(pointX, pointY) === 'X'){
-          playPiece = <img src={cross} className="playPiece cross" alt="X"></img>  
+          playPiece = <div className className="playPiece cross">
+            <Cross />
+          </div>  
         } else if (squares.getSquareVal(pointX, pointY) === 'O') {
-          playPiece = <img src={nought} className="playPiece nought" alt="0"></img>
+          playPiece = <div className="playPiece nought">
+            <Nought />
+          </div>
         } else {
           playPiece = <div class="playPiece blank"></div>
         }

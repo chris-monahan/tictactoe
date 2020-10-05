@@ -1,21 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.2" width="210mm" height="297mm" viewBox="0 0 21000 29700" preserveAspectRatio="xMidYMid" fill-rule="evenodd" stroke-width="28.222" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" xmlns:ooo="http://xml.openoffice.org/svg/export" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:presentation="http://sun.com/xmlns/staroffice/presentation" xmlns:smil="http://www.w3.org/2001/SMIL20/" xmlns:anim="urn:oasis:names:tc:opendocument:xmlns:animation:1.0" xml:space="preserve">
- <g class="SlideGroup">
-  <g>
-   <g id="container-id1">
-    <g id="id1" class="Slide" clip-path="url(#presentation_clip_path)">
-     <g class="Page">
-      <g class="com.sun.star.drawing.CustomShape">
-       <g id="id3">
-        <rect class="BoundingBox" stroke="none" fill="none" x="1041" y="4941" width="19020" height="19020"/>
-        <path fill="rgb(255,255,255)" stroke="none" d="M 10550,6000 C 15341,6000 19000,9659 19000,14450 19000,19241 15341,22900 10550,22900 5759,22900 2100,19241 2100,14450 2100,9659 5759,6000 10550,6000 Z M 2100,6000 L 2100,6000 Z M 19001,22901 L 19001,22901 Z"/>
-        <path fill="none" stroke="rgb(0,0,0)" stroke-width="2117" stroke-linejoin="round" d="M 10550,6000 C 15341,6000 19000,9659 19000,14450 19000,19241 15341,22900 10550,22900 5759,22900 2100,19241 2100,14450 2100,9659 5759,6000 10550,6000 Z"/>
-       </g>
-      </g>
-     </g>
-    </g>
-   </g>
-  </g>
- </g>
+<svg version="1.2" viewBox="-1500 3000 30000 22000">
+<g>
+    <path fill="rgb(255,255,255)" stroke="none" d="M 10550,6000 C 15341,6000 19000,9659 19000,14450 19000,19241 15341,22900 10550,22900 5759,22900 2100,19241 2100,14450 2100,9659 5759,6000 10550,6000 Z M 2100,6000 L 2100,6000 Z M 19001,22901 L 19001,22901 Z"/>
+    <path class="noughtPath" fill="none" stroke-width="2117" stroke-linejoin="round" d="M 10550,6000 C 15341,6000 19000,9659 19000,14450 19000,19241 15341,22900 10550,22900 5759,22900 2100,19241 2100,14450 2100,9659 5759,6000 10550,6000 Z"/>
+</g>
 </svg>

@@ -6,6 +6,8 @@
   --grid-y-num:3;
   --grid-square-width:30vh;
   --grid-square-height:26vh;
+  --nought-piece-col:rgb(20, 70, 220);
+  --cross-piece-col:rgb(220, 40, 20);
 }
 
 body, html {
@@ -83,6 +85,19 @@ body.MSIE #game.withSidebar .game-info {
 
 .playPiece.blank{
   cursor: pointer;
+}
+
+.playPiece svg{
+  height:100%;
+  width:auto;
+}
+
+.playPiece svg .noughtPath{
+  stroke: var(--nought-piece-col);
+}
+
+.playPiece svg .crossPath{
+  stroke: var(--cross-piece-col);
 }
 
 .squareWrapper {

@@ -1,28 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.2" width="210mm" height="297mm" viewBox="0 0 21000 29700" preserveAspectRatio="xMidYMid" fill-rule="evenodd" stroke-width="28.222" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" xmlns:ooo="http://xml.openoffice.org/svg/export" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:presentation="http://sun.com/xmlns/staroffice/presentation" xmlns:smil="http://www.w3.org/2001/SMIL20/" xmlns:anim="urn:oasis:names:tc:opendocument:xmlns:animation:1.0" xml:space="preserve">
- <g class="SlideGroup">
-  <g>
-   <g id="container-id1">
-    <g id="id1" class="Slide" clip-path="url(#presentation_clip_path)">
-     <g class="Page">
-      <g class="Group">
-       <g class="com.sun.star.drawing.LineShape">
-        <g id="id3">
-         <rect class="BoundingBox" stroke="none" fill="none" x="1041" y="4941" width="18819" height="18819"/>
-         <path fill="none" stroke="rgb(0,0,0)" stroke-width="2117" stroke-linejoin="round" stroke-linecap="round" d="M 2100,22700 L 18800,6000"/>
-        </g>
-       </g>
-       <g class="com.sun.star.drawing.LineShape">
-        <g id="id4">
-         <rect class="BoundingBox" stroke="none" fill="none" x="1041" y="4941" width="18819" height="18819"/>
-         <path fill="none" stroke="rgb(0,0,0)" stroke-width="2117" stroke-linejoin="round" stroke-linecap="round" d="M 18800,22700 L 2100,6000"/>
-        </g>
-       </g>
-      </g>
-     </g>
-    </g>
-   </g>
-  </g>
- </g>
+<svg version="1.2" viewBox="-1500 3000 30000 22000">
+<g>
+    <path class="crossPath" fill="none" stroke-width="2117" stroke-linejoin="round" stroke-linecap="round" d="M 2100,22700 L 18800,6000"/>
+    <path class="crossPath" fill="none" stroke-width="2117" stroke-linejoin="round" stroke-linecap="round" d="M 18800,22700 L 2100,6000"/>
+</g>
 </svg>
