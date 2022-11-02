@@ -38,7 +38,7 @@ class Board extends React.Component {
         let playPiece;
   
         if (squares.getSquareVal(pointX, pointY) === 'X'){
-          playPiece = <div className className="playPiece cross">
+          playPiece = <div className="playPiece cross">
             <Cross />
           </div>  
         } else if (squares.getSquareVal(pointX, pointY) === 'O') {
