@@ -1,7 +1,6 @@
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import Game from './UIComponents/Game';
 import init from './init.js';
@@ -19,10 +18,9 @@ global.config = config;
 console.log(_.get(config, "sidebar.enabled"));
 
 init(config);
+const root = createRoot(document.getElementById('root'));
 
-
-
-ReactDOM.render(
+root.render(
   <Game  sizeX={config.board.sizeX} sizeY={config.board.sizeY}/>,
   document.getElementById('root')
 );
