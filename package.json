@@ -23,12 +23,12 @@
   },
   "browserslist": {
     "production": [
-      "last 2 versions, > 0.5%, ie >= 11",
+      "last 2 versions, > 0.5%",
       "not dead",
       "not op_mini all"
     ],
     "development": [
-      "last 2 versions, > 0.5%, ie >= 11",
+      "last 2 versions, > 0.5%",
       "not dead",
       "not op_mini all"
     ]

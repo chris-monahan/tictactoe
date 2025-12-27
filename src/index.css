@@ -32,25 +32,10 @@ body{
   min-height: calc(100vh - 2em);
 }
 
-body.MSIE #game{
-  display:block;
-}
 
 body:not(.MSIE) #game.withSidebar{
   grid-template-columns: auto 300px;
   grid-template-rows: auto;
-}
-
-body.MSIE #game.withSidebar #game-board-container {
-  width:calc(100% - 300px);
-}
-
-body.MSIE #game.withSidebar .game-info {
-  position:fixed;
-  width:280px;
-  height:100vh;
-  top:0px;
-  right:0px;
 }
 
 #game-board-container{
