@@ -1,14 +1,12 @@
 import React from 'react';
 
-class Sidebar extends React.Component {
+function Sidebar() {
 
-    render() {
-      return <div class="sidebarWrapper">
+    return <div class="sidebarWrapper">
               <div class="sidebarHistory">
                 
             </div>
-          </div>    
-    }
+          </div>
   }
 
   export default Sidebar;
