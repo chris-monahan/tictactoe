@@ -143,3 +143,17 @@ test('Toggling the sidebar resizes the board', () =>{
     fireEvent.click(screen.getByRole('button', { name: 'Hide sidebar' }));
     expect(adjustBoardSize).toHaveBeenCalled();
 });
+
+test('Play again starts a new game after a win', () =>{
+    let { container } = render(<Game sizeX={3} sizeY={3} />);
+
+    [[1,3],[1,2],[2,3],[2,2],[3,3]].forEach(([pointX, pointY]) => {
+        clickSquare(container, pointX, pointY);
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Play again?' }));
+
+    expect(pieceAt(container, 1, 3)).toEqual(null);
+    expect(container.querySelectorAll('.historyStep').length).toEqual(1);
+    expect(screen.getByText('Next player: X')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Play again?' })).toBeNull();
+});
