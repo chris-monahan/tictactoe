@@ -3,6 +3,7 @@ import Board from './Board';
 import Sidebar from './Sidebar';
 import GridState from '../GridState';
 import PlayStatus from './PlayStatus'
+import Score from './Score';
 import config from '../config';
 import checkWinner from '../checkWinner.fn';
 import adjustBoardSize from '../adjustBoardSize.fn';
@@ -26,6 +27,9 @@ class Game extends React.Component {
         stepNumber: 0,
         xIsNext: true,
         sidebarExpanded: window.innerWidth >= narrowScreenWidth,
+        score: { X: 0, O: 0, draws: 0 },
+        //each game counts towards the score once, when it first finishes
+        gameScored: false,
       }
     }
 
@@ -55,6 +59,7 @@ class Game extends React.Component {
       }
   
       currentGridState.setSquareVal(pointX, pointY, this.state.xIsNext ? 'X' : 'O');
+      this.scoreIfFinished(currentGridState);
       this.setState({
         history: history.concat([{
           squares: currentGridState.getGridData(),
@@ -79,6 +84,21 @@ class Game extends React.Component {
       })
     }
 
+    scoreIfFinished(gridState){
+      if(this.state.gameScored){
+        return;
+      }
+
+      const winner = checkWinner(gridState);
+      if(winner || gridState.findEmptySquares().length === 0){
+        const result = winner ? winner : "draws";
+        this.setState((state) => ({
+          score: { ...state.score, [result]: state.score[result] + 1 },
+          gameScored: true,
+        }));
+      }
+    }
+
     newGame(){
       const currentGridState = this.state.currentGridState;
 
@@ -91,6 +111,7 @@ class Game extends React.Component {
         currentGridState: currentGridState,
         stepNumber: 0,
         xIsNext: true,
+        gameScored: false,
       })
     }
   
@@ -111,6 +132,7 @@ class Game extends React.Component {
               onPlayAgain={() => this.newGame()}
               xIsNext={this.state.xIsNext}
               />  
+            <Score score={this.state.score} />
 
           </div>
           {config.sidebar.enabled && 

@@ -157,3 +157,51 @@ test('Play again starts a new game after a win', () =>{
     expect(screen.getByText('Next player: X')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Play again?' })).toBeNull();
 });
+
+function playMoves(container, moves){
+    moves.forEach(([pointX, pointY]) => clickSquare(container, pointX, pointY));
+}
+
+//X takes the top row
+const xWins = [[1,3],[1,2],[2,3],[2,2],[3,3]];
+//O takes the middle row
+const oWins = [[1,3],[1,2],[2,3],[2,2],[3,1],[3,2]];
+//ends as  X O X / X O O / O X X  (top row first)
+const draw = [[1,3],[2,3],[3,3],[2,2],[1,2],[3,2],[2,1],[1,1],[3,1]];
+
+test('The score counts each finished game', () =>{
+    let { container } = render(<Game sizeX={3} sizeY={3} />);
+    let score = screen.getByLabelText('Score');
+    expect(score).toHaveTextContent('X: 0O: 0Draws: 0');
+
+    playMoves(container, xWins);
+    expect(score).toHaveTextContent('X: 1O: 0Draws: 0');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Play again?' }));
+    playMoves(container, oWins);
+    expect(score).toHaveTextContent('X: 1O: 1Draws: 0');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Play again?' }));
+    playMoves(container, draw);
+    expect(score).toHaveTextContent('X: 1O: 1Draws: 1');
+});
+
+test('Replaying the end of a finished game does not count it twice', () =>{
+    let { container } = render(<Game sizeX={3} sizeY={3} />);
+    let score = screen.getByLabelText('Score');
+
+    playMoves(container, xWins);
+    fireEvent.click(screen.getByText('Move 4: O'));
+    clickSquare(container, 3, 3);
+    expect(screen.getByText('X is the winner!')).toBeInTheDocument();
+    expect(score).toHaveTextContent('X: 1O: 0Draws: 0');
+});
+
+test('A game abandoned with reset is not counted', () =>{
+    let { container } = render(<Game sizeX={3} sizeY={3} />);
+    let score = screen.getByLabelText('Score');
+
+    playMoves(container, xWins.slice(0, 4));
+    fireEvent.click(screen.getByAltText('reset'));
+    expect(score).toHaveTextContent('X: 0O: 0Draws: 0');
+});

@@ -312,3 +312,20 @@ body{
     z-index: 10;
   }
 }
+
+.score{
+  margin: 1em auto 0 auto;
+  font-size: 1.2em;
+}
+
+.score span{
+  margin: 0 0.75em;
+}
+
+.score .score-X{
+  color: var(--cross-piece-col);
+}
+
+.score .score-O{
+  color: var(--nought-piece-col);
+}
