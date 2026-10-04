@@ -53,8 +53,9 @@ export default class GridState {
         sequencesConsolidated = sequencesFragmented.map(consolidateSequences);
 
         if(!includeDiagonal && typeof includeDiagonal !== "undefined"){
-            sequencesConsolidated.splice(0,1);
+            //remove the diagonals (indexes 0 and 2), highest index first so the other doesn't shift
             sequencesConsolidated.splice(2,1);
+            sequencesConsolidated.splice(0,1);
         }
 
         if(Number.isInteger(minNum)){

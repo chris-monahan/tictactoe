@@ -198,3 +198,16 @@ test('Get row and column', () =>{
     expect(fourByThree.getColumn(1)).toEqual([1,5,9]);
     expect(fourByThree.getColumn(4)).toEqual([4,8,12]);
 });
+
+test('Continuous sequences without diagonals', () => {
+    let testGridC = new GridState(3,3);
+    testGridC.setGridData([ ['x','x','x'],
+                            ['x','x','x'],
+                            ['x','x','x']]);
+
+    //only the vertical (index 1) and horizontal (index 3) directions should remain
+    let allResults = testGridC.findContinuousSequences();
+    let straightResults = testGridC.findContinuousSequences(undefined, undefined, false);
+
+    expect(straightResults).toEqual([allResults[1], allResults[3]]);
+});
