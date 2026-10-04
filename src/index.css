@@ -110,6 +110,9 @@ body{
   padding:10px;
   border-left:4px solid black;
   grid-column: 2;
+  max-height: calc(100vh - 2em);
+  overflow-y: auto;
+  text-align: left;
 }
 
 .playPiece{
@@ -155,4 +158,71 @@ body{
 #playStatus #reset-btn img{
   width: 4em;
   height: 4em;
+}
+.sidebarHistory h2 {
+  margin: 0 0 0.5em 0;
+}
+
+.historyList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.historyBtn {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  width: 100%;
+  margin-bottom: 6px;
+  padding: 6px;
+  font: inherit;
+  text-align: left;
+  background: white;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.historyBtn:hover {
+  background: whitesmoke;
+}
+
+.historyStep.current .historyBtn {
+  border-color: black;
+  background: whitesmoke;
+  font-weight: bold;
+}
+
+.miniBoard {
+  display: grid;
+  grid-auto-rows: 18px;
+  gap: 2px;
+  flex-shrink: 0;
+  background: black;
+}
+
+.miniSquare {
+  position: relative;
+  width: 18px;
+  overflow: hidden;
+  background: white;
+}
+
+/* The piece drawings sit off-centre in their SVG viewBox, so size and offset
+   the SVG to centre the drawing at about 70% of the square */
+.miniSquare svg {
+  position: absolute;
+  left: 0.5%;
+  top: 2.6%;
+  width: 124%;
+  height: 91%;
+}
+
+.miniSquare svg .crossPath {
+  stroke: var(--cross-piece-col);
+}
+
+.miniSquare svg .noughtPath {
+  stroke: var(--nought-piece-col);
 }

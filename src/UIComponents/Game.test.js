@@ -78,3 +78,17 @@ test('Uses the board size it is given', () =>{
     clickSquare(container, 4, 3);
     expect(pieceAt(container, 4, 3)).toEqual('X');
 });
+
+test('The sidebar history lists each move and jumps back to it', () =>{
+    let { container } = render(<Game sizeX={3} sizeY={3} />);
+
+    clickSquare(container, 1, 1);
+    clickSquare(container, 2, 2);
+    expect(screen.getByText('Move 2: O')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText('Move 1: X'));
+    expect(pieceAt(container, 1, 1)).toEqual('X');
+    expect(pieceAt(container, 2, 2)).toEqual(null);
+    expect(screen.getByText('Next player: O')).toBeInTheDocument();
+    expect(screen.getByText('Move 1: X').closest('button')).toHaveAttribute('aria-current', 'step');
+});

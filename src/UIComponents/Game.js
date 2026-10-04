@@ -81,8 +81,10 @@ class Game extends React.Component {
           {config.sidebar.enabled && 
           <div className="game-info">
             <Sidebar 
+              components={config.sidebar.components}
               history={history}
-              gridState={currentGridState}/>
+              stepNumber={this.state.stepNumber}
+              onJump={(step) => this.jumpTo(step)}/>
           </div> }
         </div>
       );

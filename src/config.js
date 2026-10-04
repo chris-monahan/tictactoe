@@ -6,8 +6,8 @@ const config = {
         crossColor:"rgb(220, 40, 20)"
     },
     sidebar:{
-        enabled:false,
-        components:['playStatus','history'],
+        enabled:true,
+        components:['history'],
         backgroundColor:"blue"
     }
 }
