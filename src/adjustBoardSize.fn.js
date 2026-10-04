@@ -9,8 +9,6 @@ function adjustBoardSize(){
     let boardWidthLimitOffset = window.innerWidth < mobileScreenWidth ? 0.85 : 0.75;
     let boardHeightLimitOffset = 0.75;
 
-    //const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
-    //const viewportHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
     if(containingElement !== null){
         //the container grows to fit the board, so shrink the board before measuring the space available
         //(this all happens before the browser paints, so the board never shows at zero size)
@@ -32,11 +30,6 @@ function adjustBoardSize(){
 
         let squareWidth = squareWidthPx + "px";
         let squareHeight = squareHeightPx + "px";
-
-        // console.log("--Adjusting board size--");
-        // console.log("Square Width: "+squareWidth);
-        // console.log("Square Height: "+squareHeight);
-        // console.log(containingElement);
 
         docRoot.style.setProperty("--grid-square-width", squareWidth);
         docRoot.style.setProperty("--grid-square-height", squareHeight);

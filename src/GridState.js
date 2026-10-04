@@ -112,21 +112,6 @@ export default class GridState {
                 let foundFlag = false;
                 let itemPair = fragmented[itemIndex];
 
-                //The following turns out to be unnecessary and doesn't work right anyway
-                //Leaving here for now just for reference and to show where my mind was at
-
-                /*for(let searchIndex = itemIndex; searchIndex < fragmented.length; searchIndex++){
-                    let searchPair = fragmented[searchIndex];
-                    if(itemPair[0] === searchPair[0] && gridState.coordsEqual(itemPair[2], searchPair[1])){
-                        foundFlag = true;
-                        consolidated.push([itemPair[0], itemPair[1], itemPair[2], searchPair[2]]);
-                        break;
-                    }
-                }
-                if(foundFlag === true){
-                    break;
-                }*/
-
                 //check existing known sequences
                 for(let searchIndex = 0; searchIndex < consolidated.length; searchIndex++){
                     let searchSequence = consolidated[searchIndex]
@@ -214,8 +199,6 @@ export default class GridState {
         } else {
             return null;
         }
-        //console.log("Querying grid point (X:"+xPos+" , Y:"+yPos+") Value: " +  this.gridArray[yPos - 1][xPos - 1]);
-        
     }
 
     setSquareVal(xPos, yPos, value){
@@ -253,8 +236,6 @@ export default class GridState {
     // the adjacent for the non-existent square
 
     getSquareAdjacents(xPos, yPos){
-        //console.log("Getting Adjacents for " + xPos + ", " + yPos);
-        //console.log("====================")
         let gridState = this;
         
         let adjacentsArray = Array(8).fill(null);
@@ -313,20 +294,3 @@ export default class GridState {
 
 
 }
-
-/*function splitIntoContinuousSequences(srcArray){
-    let returnArray = [];
-    let currentVal;
-    let previousVal;
-
-    for(let i = 0; i < array.length; i++){
-        currentVal = srcArray[i];
-        if(i === 0 || previousVal !== currentVal){
-            returnArray.push(new Array());
-        }
-
-        returnArray[returnArray.length - 1].push(currentVal);
-    }
-
-    return returnArray;
-}*/

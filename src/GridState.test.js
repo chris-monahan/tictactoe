@@ -42,7 +42,6 @@ test('Grid array bounds', () =>{
 
 test('Get square val', () =>{
     let testGrid = getTestGridA();
-    //console.log(JSON.stringify(testGrid)); 
     expect(testGrid.getSquareVal(1,3)).toEqual('o');
     expect(testGrid.getSquareVal(2,3)).toEqual('x');
     expect(testGrid.getSquareVal(3,3)).toEqual(null);
@@ -80,7 +79,6 @@ test('Simple set grid data', () =>{
 test('Get grid square adjacents', () =>{
     let testGrid = getTestGridA();
     let testAdjacentResults = testGrid.getSquareAdjacents(2,2);
-    //console.log(testAdjacentResults);
 
     expect(testAdjacentResults).toEqual(['o','x',null,'x','x','x','x','o']);
 })
