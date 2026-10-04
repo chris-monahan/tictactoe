@@ -205,3 +205,14 @@ test('A game abandoned with reset is not counted', () =>{
     fireEvent.click(screen.getByAltText('reset'));
     expect(score).toHaveTextContent('X: 0O: 0Draws: 0');
 });
+
+test('The sidebar toggle is the same single button whether open or closed', () =>{
+    let { container } = render(<Game sizeX={3} sizeY={3} />);
+    let toggle = container.querySelector('.sidebarToggle');
+    let wasExpanded = toggle.getAttribute('aria-expanded');
+
+    fireEvent.click(toggle);
+    expect(container.querySelectorAll('.sidebarToggle').length).toEqual(1);
+    expect(container.querySelector('.sidebarToggle')).toBe(toggle);
+    expect(toggle.getAttribute('aria-expanded')).not.toEqual(wasExpanded);
+});
