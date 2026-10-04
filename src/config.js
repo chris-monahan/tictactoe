@@ -8,7 +8,6 @@ const config = {
     sidebar:{
         enabled:true,
         components:['history'],
-        backgroundColor:"blue"
     }
 }
 
