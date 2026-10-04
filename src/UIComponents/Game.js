@@ -11,7 +11,7 @@ class Game extends React.Component {
     constructor(props){
       super(props);
 
-      this.gridStateTemplate = new GridState(window.config.board.sizeX,window.config.board.sizeY);
+      this.gridStateTemplate = new GridState(props.sizeX, props.sizeY);
 
       this.state = {
         history: [{
