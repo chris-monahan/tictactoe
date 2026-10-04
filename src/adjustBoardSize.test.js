@@ -40,3 +40,20 @@ test('Board fits inside a tall container', () =>{
     expect(height * 3).toBeLessThanOrEqual(2000 * 0.75);
     expect(width / height).toBeCloseTo(1.1);
 });
+
+test('The board starting oversized does not skew the measurement', () =>{
+    //like the real layout, the container grows to fit a board wider than the space available
+    document.body.innerHTML = '<div id="game-board-container"></div>';
+    let container = document.getElementById('game-board-container');
+    let style = document.documentElement.style;
+    let boardWidth = () => parseFloat(style.getPropertyValue('--grid-square-width') || '0') * 4;
+    Object.defineProperty(container, 'clientWidth', { get: () => Math.max(400, boardWidth()) });
+    Object.defineProperty(container, 'clientHeight', { value: 2000 });
+
+    style.setProperty('--grid-square-width', '300px');
+    style.setProperty('--grid-square-height', '300px');
+    adjustBoardSize();
+
+    //sized for the 400px the container has without the board: 400 * 0.75 / 4 squares
+    expect(parseFloat(style.getPropertyValue('--grid-square-width'))).toBeCloseTo(75);
+});

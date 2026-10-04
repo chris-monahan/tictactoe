@@ -9,6 +9,11 @@ function adjustBoardSize(){
     //const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
     //const viewportHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
     if(containingElement !== null){
+        //the container grows to fit the board, so shrink the board before measuring the space available
+        //(this all happens before the browser paints, so the board never shows at zero size)
+        docRoot.style.setProperty("--grid-square-width", "0px");
+        docRoot.style.setProperty("--grid-square-height", "0px");
+
         let containerWidth = containingElement.clientWidth;
         let containerHeight = containingElement.clientHeight;
         //width to height ratio of a single square
