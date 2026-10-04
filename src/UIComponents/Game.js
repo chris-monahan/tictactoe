@@ -12,13 +12,14 @@ class Game extends React.Component {
     constructor(props){
       super(props);
 
-      this.gridStateTemplate = new GridState(props.sizeX, props.sizeY);
+      //the live grid: every move and history jump updates this one object
+      const gridState = new GridState(props.sizeX, props.sizeY);
 
       this.state = {
         history: [{
-          squares: this.gridStateTemplate.getGridData(),
+          squares: gridState.getGridData(),
         }],
-        currentGridState:this.gridStateTemplate,
+        currentGridState: gridState,
         stepNumber: 0,
         xIsNext: true,
         //the sidebar opens over the page, so it starts hidden to keep out of the way
