@@ -57,3 +57,27 @@ test('The board starting oversized does not skew the measurement', () =>{
     //sized for the 400px the container has without the board: 400 * 0.75 / 4 squares
     expect(parseFloat(style.getPropertyValue('--grid-square-width'))).toBeCloseTo(75);
 });
+
+describe('Board width allowance by screen size', () =>{
+    afterEach(() => {
+        window.innerWidth = 1024;
+    });
+
+    test('On a mobile screen the board may use 85% of the width', () =>{
+        window.innerWidth = 390;
+        setUpContainer(320, 2000);
+        adjustBoardSize();
+
+        //320 * 0.85 / 4 squares
+        expect(getSquareSize()[0]).toBeCloseTo(68);
+    });
+
+    test('On a larger screen the board uses 75% of the width', () =>{
+        window.innerWidth = 1024;
+        setUpContainer(320, 2000);
+        adjustBoardSize();
+
+        //320 * 0.75 / 4 squares
+        expect(getSquareSize()[0]).toBeCloseTo(60);
+    });
+});

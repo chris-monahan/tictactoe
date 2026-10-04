@@ -1,9 +1,12 @@
 import config from "./config";
 
+//Below this window width (i.e. phones) the board may use more of the width available
+const mobileScreenWidth = 700;
+
 function adjustBoardSize(){
     let docRoot = document.documentElement;
     let containingElement = document.getElementById("game-board-container")
-    let boardWidthLimitOffset = 0.75;
+    let boardWidthLimitOffset = window.innerWidth < mobileScreenWidth ? 0.85 : 0.75;
     let boardHeightLimitOffset = 0.75;
 
     //const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
