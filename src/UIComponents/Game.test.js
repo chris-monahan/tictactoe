@@ -92,3 +92,14 @@ test('The sidebar history lists each move and jumps back to it', () =>{
     expect(screen.getByText('Next player: O')).toBeInTheDocument();
     expect(screen.getByText('Move 1: X').closest('button')).toHaveAttribute('aria-current', 'step');
 });
+
+test('Reset starts a new game with an empty history', () =>{
+    let { container } = render(<Game sizeX={3} sizeY={3} />);
+
+    clickSquare(container, 1, 1);
+    clickSquare(container, 2, 2);
+    fireEvent.click(screen.getByAltText('reset'));
+
+    expect(container.querySelectorAll('.historyStep').length).toEqual(1);
+    expect(screen.queryByText('Move 1: X')).toBeNull();
+});

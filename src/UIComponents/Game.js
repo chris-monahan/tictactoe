@@ -59,6 +59,21 @@ class Game extends React.Component {
         currentGridState: currentGridState,
       })
     }
+
+    newGame(){
+      const currentGridState = this.state.currentGridState;
+
+      //the first step in the history is always the empty board
+      currentGridState.setGridData(this.state.history[0].squares);
+      this.setState({
+        history: [{
+          squares: currentGridState.getGridData(),
+        }],
+        currentGridState: currentGridState,
+        stepNumber: 0,
+        xIsNext: true,
+      })
+    }
   
     render() {
       const history = this.state.history;
@@ -73,7 +88,7 @@ class Game extends React.Component {
               />
             <PlayStatus
               gridState={currentGridState}
-              onReset={() => this.jumpTo(0)}
+              onReset={() => this.newGame()}
               xIsNext={this.state.xIsNext}
               />  
 
