@@ -263,7 +263,7 @@ export default class GridState {
                 yPos = arguments[1];
             }
 
-            if(xPos < 0 || yPos < 0){
+            if(xPos < 1 || yPos < 1){
                 return null;
             } else if (xPos > gridState.sizeX || yPos > gridState.sizeY){
                 return null;
