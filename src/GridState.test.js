@@ -10,7 +10,7 @@ function getTestGridA(){
 }
 
 function getTestGridB(){
-    let testGridB = new GridState(3,3);
+    let testGridB = new GridState(4,4);
     testGridB.setGridData([ ['o','x',null, 'x'],
                             ['x','o','x', 'x'],
                             ['x','x','o', 'x'],
@@ -101,14 +101,14 @@ test('Find matching adjacents', () => {
 
 test('Continuous sequences', () => {
     let testGridA = getTestGridA();
-    //let testGridB = getTestGridB();
+    let testGridB = getTestGridB();
     let testGridC = new GridState(3,3);
     testGridC.setGridData([ ['x','x','x'],
                             ['x','x','x'],
                             ['x','x','x']]);
 
     let testGridAResults = testGridA.findContinuousSequences();
-    //let testGridBResults = testGridB.findContinuousSequences();
+    let testGridBResults = testGridB.findContinuousSequences();
     let testGridCResults = testGridC.findContinuousSequences();
 
     expect(JSON.stringify(testGridAResults)).toEqual(JSON.stringify([
@@ -124,7 +124,13 @@ test('Continuous sequences', () => {
         [["x",[1,1],[2,2],[3,3]],["x",[1,2],[2,3]],["x",[2,1],[3,2]]],
         [["x",[1,1],[2,1],[3,1]],["x",[1,2],[2,2],[3,2]],["x",[1,3],[2,3],[3,3]]]
     ]));
-    //TODO figure out what is going on with the 4 length sequences for test grid B
+
+    expect(JSON.stringify(testGridBResults)).toEqual(JSON.stringify([
+        [["x",[2,1],[1,2]],["x",[3,1],[2,2],[1,3]],["o",[3,2],[2,3],[1,4]],["x",[4,2],[3,3],[2,4]]],
+        [["x",[1,1],[1,2],[1,3]],["x",[2,1],[2,2]],["x",[4,1],[4,2],[4,3],[4,4]]],
+        [["x",[1,1],[2,2],[3,3],[4,4]],["x",[1,3],[2,4]],["x",[3,1],[4,2]]],
+        [["x",[1,1],[2,1],[3,1],[4,1]],["x",[1,2],[2,2]],["x",[3,3],[4,3]]]
+    ]));
 
 });
 
