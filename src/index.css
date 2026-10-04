@@ -56,6 +56,36 @@ body{
   grid-template-rows:repeat(var(--grid-y-num), var(--grid-square-height));
 }
 
+/* Drawn over the whole grid area (not the board's padding) */
+.board{
+  position: relative;
+}
+
+.winningLines{
+  position: absolute;
+  grid-row: 1 / -1;
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.winningLine{
+  stroke-width: 14px;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.75;
+}
+
+.winningLine-X{
+  stroke: var(--cross-piece-col);
+}
+
+.winningLine-O{
+  stroke: var(--nought-piece-col);
+}
+
 .status {
   margin-bottom: 10px;
 }

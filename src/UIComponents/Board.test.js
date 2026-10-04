@@ -49,3 +49,41 @@ test('Clicking a square reports its grid coordinates', () =>{
     expect(container.querySelectorAll('.squareWrapper')[0].querySelector('.squareBtn')).toBe(
         container.querySelector('.square_X_1.square_Y_3 .squareBtn'));
 });
+
+test('Draws no line when nobody has won', () =>{
+    let { container } = render(<Board gridState={new GridState(3,3)} onClick={() => {}} />);
+    expect(container.querySelector('.winningLine')).toBeNull();
+});
+
+test('Draws a line through the centres of the winning squares', () =>{
+    let grid = new GridState(3,3);
+    grid.setGridData([  ['X','X','X'],
+                        ['O','O',null],
+                        [null,null,null]]);
+    let { container } = render(<Board gridState={grid} onClick={() => {}} />);
+    let lines = container.querySelectorAll('.winningLine');
+
+    //in grid units, the top row's centres are at y = 0.5 and x = 0.5 to 2.5
+    expect(lines.length).toEqual(1);
+    expect(lines[0]).toHaveAttribute('x1', '0.5');
+    expect(lines[0]).toHaveAttribute('y1', '0.5');
+    expect(lines[0]).toHaveAttribute('x2', '2.5');
+    expect(lines[0]).toHaveAttribute('y2', '0.5');
+    expect(lines[0]).toHaveClass('winningLine-X');
+});
+
+test('Draws a vertical winning line on a non-square board', () =>{
+    let grid = new GridState(4,3);
+    grid.setGridData([  [null,'O',null,null],
+                        [null,'O',null,null],
+                        ['X','O','X',null]]);
+    let { container } = render(<Board gridState={grid} onClick={() => {}} />);
+    let line = container.querySelector('.winningLine');
+
+    expect(container.querySelector('svg.winningLines')).toHaveAttribute('viewBox', '0 0 4 3');
+    expect(line).toHaveAttribute('x1', '1.5');
+    expect(line).toHaveAttribute('y1', '2.5');
+    expect(line).toHaveAttribute('x2', '1.5');
+    expect(line).toHaveAttribute('y2', '0.5');
+    expect(line).toHaveClass('winningLine-O');
+});

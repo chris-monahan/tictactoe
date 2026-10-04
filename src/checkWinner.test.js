@@ -1,5 +1,5 @@
 import GridState from './GridState.js'
-import checkWinner from './checkWinner.fn.js'
+import checkWinner, { findWinningLines } from './checkWinner.fn.js'
 
 function getGrid(gridData){
     let grid = new GridState(gridData[0].length, gridData.length);
@@ -69,4 +69,40 @@ test('The winning line length can be given explicitly', () =>{
 
     expect(checkWinner(grid)).toEqual(null);
     expect(checkWinner(grid, 3)).toEqual('X');
+});
+
+test('Finds the squares of a winning line', () =>{
+    expect(findWinningLines(getGrid([   ['X','X','X'],
+                                        ['O','O',null],
+                                        [null,null,null]]))).toEqual([
+        { value: 'X', squares: [[1,3],[2,3],[3,3]] }
+    ]);
+});
+
+test('Finds no winning lines when nobody has won', () =>{
+    expect(findWinningLines(new GridState(3,3))).toEqual([]);
+    expect(findWinningLines(getGrid([   ['X','X',null],
+                                        ['O','O',null],
+                                        [null,null,null]]))).toEqual([]);
+});
+
+test('Finds every winning line when a move completes more than one', () =>{
+    let lines = findWinningLines(getGrid([  ['X','X','X'],
+                                            ['O','X','O'],
+                                            ['O','O','X']]));
+    expect(lines).toEqual(expect.arrayContaining([
+        { value: 'X', squares: [[1,3],[2,3],[3,3]] },
+        { value: 'X', squares: [[3,1],[2,2],[1,3]] },
+    ]));
+    expect(lines.length).toEqual(2);
+});
+
+test('A winning line longer than needed includes all of its squares', () =>{
+    //4 wide x 3 tall, so 3 in a line wins, and this row has 4
+    expect(findWinningLines(getGrid([   [null,null,null,null],
+                                        ['O','O','O',null],
+                                        ['X','X','X','X']]))).toEqual(expect.arrayContaining([
+        { value: 'X', squares: [[1,1],[2,1],[3,1],[4,1]] },
+        { value: 'O', squares: [[1,2],[2,2],[3,2]] },
+    ]));
 });

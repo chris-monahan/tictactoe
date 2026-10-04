@@ -2,6 +2,7 @@ import React from 'react';
 import { ReactComponent as Cross } from '../cross.svg';
 import { ReactComponent as Nought } from '../nought.svg';
 import adjustBoardSize from "../adjustBoardSize.fn";
+import { findWinningLines } from "../checkWinner.fn";
 
 class Board extends React.Component {
     
@@ -22,8 +23,27 @@ class Board extends React.Component {
       return (
         <div className="board">
             {rows}
+            {renderWinningLines()}
         </div>
       );
+
+      //Lines are drawn in grid units over the whole grid: one unit per square, with y going down the screen
+      function renderWinningLines(){
+        let winningLines = findWinningLines(squares);
+        if(winningLines.length === 0){
+          return null;
+        }
+
+        return <svg className="winningLines" viewBox={"0 0 " + squares.sizeX + " " + squares.sizeY} preserveAspectRatio="none">
+          {winningLines.map((line, i) => {
+            let start = line.squares[0];
+            let end = line.squares[line.squares.length - 1];
+            return <line key={i} className={"winningLine winningLine-" + line.value}
+              x1={start[0] - 0.5} y1={squares.sizeY - start[1] + 0.5}
+              x2={end[0] - 0.5} y2={squares.sizeY - end[1] + 0.5} />;
+          })}
+        </svg>;
+      }
 
       function renderSquare(pointX, pointY, placeFlags) {
 
