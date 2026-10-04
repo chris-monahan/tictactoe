@@ -52,6 +52,7 @@ body{
   position: relative;
 }
 
+.gridLines,
 .winningLines{
   position: absolute;
   grid-row: 1 / -1;
@@ -60,6 +61,12 @@ body{
   height: 100%;
   overflow: visible;
   pointer-events: none;
+}
+
+.gridLine{
+  stroke: black;
+  stroke-width: 8px;
+  vector-effect: non-scaling-stroke;
 }
 
 .winningLine{
@@ -107,21 +114,6 @@ body{
 
 .playPiece svg .crossPath{
   stroke: var(--cross-piece-col);
-}
-
-.squareWrapper {
-  border-top: 8px solid black;
-  border-left: 8px solid black;
-}
-
-.squareWrapper.rowStart{
-  grid-row-start: auto;
-  border-left: 0px;
-}
-
-.squareWrapper.colTop{
-  grid-column-start: auto;
-  border-top: 0px;
 }
 
 .square:focus {

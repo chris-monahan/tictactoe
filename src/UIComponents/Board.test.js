@@ -87,3 +87,13 @@ test('Draws a vertical winning line on a non-square board', () =>{
     expect(line).toHaveAttribute('y2', '0.5');
     expect(line).toHaveClass('winningLine-O');
 });
+
+test('Draws the grid lines on the boundaries between squares', () =>{
+    let { container } = render(<Board gridState={new GridState(4,3)} onClick={() => {}} />);
+    let lines = [...container.querySelectorAll('.gridLine')].map((line) =>
+        ['x1', 'y1', 'x2', 'y2'].map((attr) => line.getAttribute(attr)).join(','));
+
+    expect(container.querySelector('svg.gridLines')).toHaveAttribute('viewBox', '0 0 4 3');
+    //3 vertical lines between 4 columns, 2 horizontal lines between 3 rows, in grid units
+    expect(lines).toEqual(['1,0,1,3', '2,0,2,3', '3,0,3,3', '0,1,4,1', '0,2,4,2']);
+});

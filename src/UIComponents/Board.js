@@ -23,11 +23,30 @@ class Board extends React.Component {
       return (
         <div className="board">
             {rows}
+            {renderGridLines()}
             {renderWinningLines()}
         </div>
       );
 
-      //Lines are drawn in grid units over the whole grid: one unit per square, with y going down the screen
+      //The grid lines and winning lines are drawn in grid units over the whole grid:
+      //one unit per square, with y going down the screen
+
+      //Drawn as an overlay rather than as square borders, so every square is the same size
+      //and its centre is exactly at the centre of its grid cell
+      function renderGridLines(){
+        let lines = [];
+        for(let x = 1; x < squares.sizeX; x++){
+          lines.push(<line key={"x" + x} className="gridLine" x1={x} y1={0} x2={x} y2={squares.sizeY} />);
+        }
+        for(let y = 1; y < squares.sizeY; y++){
+          lines.push(<line key={"y" + y} className="gridLine" x1={0} y1={y} x2={squares.sizeX} y2={y} />);
+        }
+
+        return <svg className="gridLines" viewBox={"0 0 " + squares.sizeX + " " + squares.sizeY} preserveAspectRatio="none">
+          {lines}
+        </svg>;
+      }
+
       function renderWinningLines(){
         let winningLines = findWinningLines(squares);
         if(winningLines.length === 0){
