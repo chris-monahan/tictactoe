@@ -1,4 +1,4 @@
-export default {
+const config = {
     board:{
         sizeX:3,
         sizeY:3,
@@ -11,3 +11,5 @@ export default {
         backgroundColor:"blue"
     }
 }
+
+export default config;

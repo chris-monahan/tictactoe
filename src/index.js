@@ -8,7 +8,7 @@ import config from './config.js';
 import _ from 'lodash';
 
 // ========================================
-if(typeof window !== undefined){
+if(typeof window !== "undefined"){
   window.global = window;
 }
 
