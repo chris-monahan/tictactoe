@@ -11,25 +11,19 @@ function adjustBoardSize(){
     if(containingElement !== null){
         let containerWidth = containingElement.clientWidth;
         let containerHeight = containingElement.clientHeight;
-        let squareWidth;
-        let squareHeight;
-        let boardWidth;
-        let boardHeight;
+        //width to height ratio of a single square
+        let squareAspect = 1.1;
 
         let maxBoardWidth = containerWidth * boardWidthLimitOffset;
         let maxBoardHeight = containerHeight * boardHeightLimitOffset;
 
-        
-        if(maxBoardHeight > maxBoardWidth){
-            boardWidth = maxBoardWidth;
-            boardHeight = boardWidth*0.9;
-        } else {
-            boardHeight = maxBoardHeight;
-            boardWidth = boardHeight*1.1;
-        }
+        //take the largest square that lets the whole board fit both ways
+        let squareWidthPx = Math.min(maxBoardWidth / config.board.sizeX,
+                                     (maxBoardHeight / config.board.sizeY) * squareAspect);
+        let squareHeightPx = squareWidthPx / squareAspect;
 
-        squareWidth = boardWidth/config.board.sizeX + "px";
-        squareHeight = boardHeight/config.board.sizeY + "px";
+        let squareWidth = squareWidthPx + "px";
+        let squareHeight = squareHeightPx + "px";
 
         // console.log("--Adjusting board size--");
         // console.log("Square Width: "+squareWidth);
