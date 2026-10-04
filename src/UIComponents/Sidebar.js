@@ -8,17 +8,21 @@ const sidebarComponents = {
 
 function Sidebar({ components, expanded = true, onToggle, ...panelProps }) {
 
-    return <div className="sidebarWrapper">
+    //The toggle stays rendered (and floats in one place) while the panel is hidden
+    return <>
             {onToggle &&
             <button className="sidebarToggle" aria-expanded={expanded}
                 aria-label={expanded ? "Hide sidebar" : "Show sidebar"} onClick={onToggle}>
                 {expanded ? "»" : "«"}
             </button>}
-            {expanded && components.map((name) => {
-                const Component = sidebarComponents[name];
-                return Component ? <Component key={name} {...panelProps} /> : null;
-            })}
-        </div>
+            {expanded &&
+            <div className="sidebarPanel">
+                {components.map((name) => {
+                    const Component = sidebarComponents[name];
+                    return Component ? <Component key={name} {...panelProps} /> : null;
+                })}
+            </div>}
+        </>
 }
 
 export default Sidebar;

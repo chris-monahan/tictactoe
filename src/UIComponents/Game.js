@@ -6,11 +6,6 @@ import PlayStatus from './PlayStatus'
 import Score from './Score';
 import config from '../config';
 import checkWinner from '../checkWinner.fn';
-import adjustBoardSize from '../adjustBoardSize.fn';
-
-//Below this window width the sidebar starts collapsed and opens over the board
-//(keep in step with the max-width media query in index.css)
-const narrowScreenWidth = 700;
 
 class Game extends React.Component {
 
@@ -26,17 +21,11 @@ class Game extends React.Component {
         currentGridState:this.gridStateTemplate,
         stepNumber: 0,
         xIsNext: true,
-        sidebarExpanded: window.innerWidth >= narrowScreenWidth,
+        //the sidebar opens over the page, so it starts hidden to keep out of the way
+        sidebarExpanded: false,
         score: { X: 0, O: 0, draws: 0 },
         //each game counts towards the score once, when it first finishes
         gameScored: false,
-      }
-    }
-
-    componentDidUpdate(prevProps, prevState){
-      //the board's container changes size when the sidebar is toggled
-      if(prevState.sidebarExpanded !== this.state.sidebarExpanded){
-        adjustBoardSize();
       }
     }
 
@@ -120,7 +109,7 @@ class Game extends React.Component {
       const currentGridState = this.state.currentGridState;
   
       return (
-        <div className={`game ${config.sidebar.enabled ? "withSidebar" : ""} ${this.state.sidebarExpanded ? "" : "sidebarCollapsed"}`} id="game">
+        <div className="game" id="game">
           <div className="game-board-container" id="game-board-container">
             <Board 
               gridState={currentGridState}
@@ -136,15 +125,13 @@ class Game extends React.Component {
 
           </div>
           {config.sidebar.enabled && 
-          <div className="game-info">
             <Sidebar 
               components={config.sidebar.components}
               expanded={this.state.sidebarExpanded}
               onToggle={() => this.toggleSidebar()}
               history={history}
               stepNumber={this.state.stepNumber}
-              onJump={(step) => this.jumpTo(step)}/>
-          </div> }
+              onJump={(step) => this.jumpTo(step)}/> }
         </div>
       );
     }

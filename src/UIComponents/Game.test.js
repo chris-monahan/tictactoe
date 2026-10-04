@@ -12,6 +12,10 @@ function clickSquare(container, pointX, pointY){
     fireEvent.click(container.querySelector(`.square_X_${pointX}.square_Y_${pointY} .squareBtn`));
 }
 
+function openSidebar(){
+    fireEvent.click(screen.getByRole('button', { name: 'Show sidebar' }));
+}
+
 function pieceAt(container, pointX, pointY){
     let square = container.querySelector(`.square_X_${pointX}.square_Y_${pointY}`);
     if(square.querySelector('.cross')) return 'X';
@@ -88,6 +92,7 @@ test('Uses the board size it is given', () =>{
 
 test('The sidebar history lists each move and jumps back to it', () =>{
     let { container } = render(<Game sizeX={3} sizeY={3} />);
+    openSidebar();
 
     clickSquare(container, 1, 1);
     clickSquare(container, 2, 2);
@@ -102,6 +107,7 @@ test('The sidebar history lists each move and jumps back to it', () =>{
 
 test('Reset starts a new game with an empty history', () =>{
     let { container } = render(<Game sizeX={3} sizeY={3} />);
+    openSidebar();
 
     clickSquare(container, 1, 1);
     clickSquare(container, 2, 2);
@@ -111,41 +117,40 @@ test('Reset starts a new game with an empty history', () =>{
     expect(screen.queryByText('Move 1: X')).toBeNull();
 });
 
-test('The sidebar starts expanded on a wide screen and can be collapsed and expanded', () =>{
-    window.innerWidth = 1024;
+test('The sidebar starts hidden and can be opened and closed', () =>{
     render(<Game sizeX={3} sizeY={3} />);
-    let toggle = screen.getByRole('button', { name: 'Hide sidebar' });
+    let toggle = screen.getByRole('button', { name: 'Show sidebar' });
 
-    expect(toggle).toHaveAttribute('aria-expanded', 'true');
-    expect(screen.getByRole('heading', { name: 'History' })).toBeInTheDocument();
-
-    fireEvent.click(toggle);
-    toggle = screen.getByRole('button', { name: 'Show sidebar' });
     expect(toggle).toHaveAttribute('aria-expanded', 'false');
     expect(screen.queryByRole('heading', { name: 'History' })).toBeNull();
 
     fireEvent.click(toggle);
+    expect(toggle).toHaveAccessibleName('Hide sidebar');
+    expect(toggle).toHaveAttribute('aria-expanded', 'true');
     expect(screen.getByRole('heading', { name: 'History' })).toBeInTheDocument();
-});
 
-test('The sidebar starts collapsed on a narrow screen', () =>{
-    window.innerWidth = 400;
-    render(<Game sizeX={3} sizeY={3} />);
-
-    expect(screen.getByRole('button', { name: 'Show sidebar' })).toHaveAttribute('aria-expanded', 'false');
+    fireEvent.click(toggle);
     expect(screen.queryByRole('heading', { name: 'History' })).toBeNull();
 });
 
-test('Toggling the sidebar resizes the board', () =>{
+test('The sidebar starts hidden on wide screens too', () =>{
+    window.innerWidth = 1920;
+    render(<Game sizeX={3} sizeY={3} />);
+    expect(screen.queryByRole('heading', { name: 'History' })).toBeNull();
+});
+
+test('Toggling the sidebar leaves the board size alone', () =>{
     render(<Game sizeX={3} sizeY={3} />);
     adjustBoardSize.mockClear();
 
+    openSidebar();
     fireEvent.click(screen.getByRole('button', { name: 'Hide sidebar' }));
-    expect(adjustBoardSize).toHaveBeenCalled();
+    expect(adjustBoardSize).not.toHaveBeenCalled();
 });
 
 test('Play again starts a new game after a win', () =>{
     let { container } = render(<Game sizeX={3} sizeY={3} />);
+    openSidebar();
 
     [[1,3],[1,2],[2,3],[2,2],[3,3]].forEach(([pointX, pointY]) => {
         clickSquare(container, pointX, pointY);
@@ -188,6 +193,7 @@ test('The score counts each finished game', () =>{
 
 test('Replaying the end of a finished game does not count it twice', () =>{
     let { container } = render(<Game sizeX={3} sizeY={3} />);
+    openSidebar();
     let score = screen.getByLabelText('Score');
 
     playMoves(container, xWins);

@@ -31,15 +31,6 @@ body{
 }
 
 
-#game.withSidebar{
-  grid-template-columns: auto 300px;
-  grid-template-rows: auto;
-}
-
-#game.withSidebar.sidebarCollapsed{
-  grid-template-columns: auto 3em;
-}
-
 #game-board-container{
   text-align:center;
   max-height:100vh;
@@ -140,13 +131,21 @@ body{
   background: #ddd;
 }
 
-.game-info {
-  padding:10px;
-  border-left:4px solid black;
-  grid-column: 2;
-  max-height: calc(100vh - 2em);
+/* The sidebar opens over the page, so the board's size and position never depend on it */
+.sidebarPanel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  box-sizing: border-box;
+  width: min(300px, 85vw);
+  padding: 10px;
   overflow-y: auto;
   text-align: left;
+  background: white;
+  border-left: 4px solid black;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.3);
 }
 
 .playPiece{
@@ -296,26 +295,6 @@ body{
   border-radius: 50%;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
   cursor: pointer;
-}
-
-/* Narrow screens: keep this in step with narrowScreenWidth in Game.js.
-   The sidebar column stays narrow and the expanded sidebar opens over the board. */
-@media (max-width: 699px) {
-  #game.withSidebar {
-    grid-template-columns: auto 3em;
-  }
-
-  #game.withSidebar:not(.sidebarCollapsed) .game-info {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: min(300px, 85vw);
-    max-height: none;
-    background: white;
-    box-shadow: -4px 0 12px rgba(0, 0, 0, 0.3);
-    z-index: 10;
-  }
 }
 
 .score{
