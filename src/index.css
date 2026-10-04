@@ -84,10 +84,6 @@ body{
   stroke: var(--nought-piece-col);
 }
 
-.status {
-  margin-bottom: 10px;
-}
-
 .squareBtn {
   width:100%;
   height:100%;
@@ -114,14 +110,6 @@ body{
 
 .playPiece svg .crossPath{
   stroke: var(--cross-piece-col);
-}
-
-.square:focus {
-  outline: none;
-}
-
-.kbd-navigation .square:focus {
-  background: #ddd;
 }
 
 /* The sidebar opens over the page, so the board's size and position never depend on it */
