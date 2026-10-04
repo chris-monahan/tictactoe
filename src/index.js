@@ -20,7 +20,6 @@ init(config);
 const root = createRoot(document.getElementById('root'));
 
 root.render(
-  <Game  sizeX={config.board.sizeX} sizeY={config.board.sizeY}/>,
-  document.getElementById('root')
+  <Game  sizeX={config.board.sizeX} sizeY={config.board.sizeY}/>
 );
   

@@ -2,8 +2,8 @@ import React from 'react';
 
 function Sidebar() {
 
-    return <div class="sidebarWrapper">
-              <div class="sidebarHistory">
+    return <div className="sidebarWrapper">
+              <div className="sidebarHistory">
                 
             </div>
           </div>

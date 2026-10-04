@@ -47,10 +47,10 @@ class Board extends React.Component {
             <Nought />
           </div>
         } else {
-          playPiece = <div class="playPiece blank"></div>
+          playPiece = <div className="playPiece blank"></div>
         }
   
-        return <div id={"boardSquare_" + squareIndex} className={classString}>
+        return <div key={squareIndex} id={"boardSquare_" + squareIndex} className={classString}>
           <button className="squareBtn" onClick={() => thisBoard.props.onClick(pointX, pointY, squareIndex)}>
             {playPiece}
           </button>
