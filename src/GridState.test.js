@@ -34,9 +34,10 @@ test('Grid array bounds', () =>{
     expect(threeByThree.gridArray.length).toEqual(3);
     expect(threeByThree.gridArray[0].length).toEqual(3);
 
+    //gridArray is indexed [y][x], so a 2 wide x 4 tall grid has 4 rows of 2
     let twoByFour = new GridState(2,4);
-    expect(twoByFour.gridArray.length).toEqual(2);
-    expect(twoByFour.gridArray[0].length).toEqual(4);
+    expect(twoByFour.gridArray.length).toEqual(4);
+    expect(twoByFour.gridArray[0].length).toEqual(2);
 });
 
 test('Get square val', () =>{
@@ -155,4 +156,27 @@ test('Continuous sequences with size limit', () => {
         []
     ]));
 
+});
+
+test('Non-square grid starts empty with the right shape', () =>{
+    let fourByThree = new GridState(4,3);
+    expect(fourByThree.getGridData()).toEqual([ [null,null,null,null],
+                                                [null,null,null,null],
+                                                [null,null,null,null]]);
+    expect(fourByThree.findEmptySquares().length).toEqual(12);
+});
+
+test('Non-square grid set and get corners', () =>{
+    let fourByThree = new GridState(4,3);
+    fourByThree.setSquareVal(1,1,'a');
+    fourByThree.setSquareVal(4,1,'b');
+    fourByThree.setSquareVal(1,3,'c');
+    fourByThree.setSquareVal(4,3,'d');
+
+    expect(fourByThree.getSquareVal(4,1)).toEqual('b');
+    expect(fourByThree.getSquareVal(1,3)).toEqual('c');
+    expect(fourByThree.getGridData()).toEqual([ ['c',null,null,'d'],
+                                                [null,null,null,null],
+                                                ['a',null,null,'b']]);
+    expect(fourByThree.findEmptySquares().length).toEqual(8);
 });

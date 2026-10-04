@@ -3,9 +3,10 @@ import cloneDeep from "lodash/cloneDeep"
 export default class GridState {
     constructor(gridSizeX, gridSizeY){
 
-        let gridArray = Array(gridSizeX).fill(null);
-        for(let i = 0; i < gridSizeX; i++){
-            gridArray[i] = Array(gridSizeY).fill(null);
+        //gridArray is indexed [y][x] so it holds gridSizeY rows of gridSizeX squares
+        let gridArray = Array(gridSizeY).fill(null);
+        for(let i = 0; i < gridSizeY; i++){
+            gridArray[i] = Array(gridSizeX).fill(null);
         }
 
         this.gridArray = gridArray;

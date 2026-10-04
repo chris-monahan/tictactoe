@@ -13,9 +13,9 @@ class Board extends React.Component {
       let squares = this.props.gridState; 
       let rows = [];
 
-      for(let i = 0; i < squares.sizeX; i++){
-          let placeFlags = {colTop: i === 0, colBottom: i === squares.length}
-          rows[i] = renderRow(squares.sizeY, i, placeFlags);
+      for(let i = 0; i < squares.sizeY; i++){
+          let placeFlags = {colTop: i === 0, colBottom: i === (squares.sizeY - 1)}
+          rows[i] = renderRow(squares.sizeX, i, placeFlags);
       }
 
       return (
