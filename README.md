@@ -4,74 +4,58 @@ A basic TicTacToe game written in React. This started as an exercise in followin
 
 I'm considering future ambitions to develop this into a suite of classic board games; but one step at a time.
 
------
+## Features
 
+- Two players take turns on one device, X first.
+- Any board size, square or not (set in `src/config.js`). A line as long as the board's shorter side wins.
+- A line is drawn through the winning pieces.
+- A "Play again?" button once a game is won or drawn, plus a reset button at any time.
+- A running score of X wins, O wins and draws. It lasts until the page is reloaded.
+- A history sidebar, opened with the floating button in the top-right corner. It shows a small picture of the board after every move, highlights the move being shown, and jumps back to any move when clicked.
+- The board resizes to fit the window and stays centred. The sidebar opens over the page, so it never moves or shrinks the board.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Running it
 
-## Available Scripts
+You need [Node.js](https://nodejs.org/) (developed with Node 22). Then:
 
-In the project directory, you can run:
+```sh
+npm ci          # install the exact dependency versions from package-lock.json
+npm start       # run in development mode at http://localhost:3000
+npm test        # run the tests in watch mode
+npm run build   # make a production build in build/
+```
 
-### `npm start`
+To run the tests once, as a CI server would: `CI=true npm test`.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+`npm run build` with `CI=true` set (as on Vercel) treats lint warnings as errors, so check that before pushing.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Configuration
 
-### `npm test`
+Everything is in `src/config.js`:
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Setting | What it does |
+| --- | --- |
+| `board.sizeX`, `board.sizeY` | Board width and height in squares. The winning line length is the shorter of the two. |
+| `board.crossColor`, `board.noughtColor` | Colours of the X and O pieces, their mini-board pictures, their winning lines and their scores. |
+| `sidebar.enabled` | Whether there is a sidebar (and its toggle button) at all. |
+| `sidebar.components` | Which panels the sidebar shows, in order. Each name is looked up in `src/UIComponents/Sidebar.js`. `'history'` is the only one so far. |
 
-### `npm run build`
+## How the code fits together
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- `src/GridState.js` holds the board and finds runs of matching pieces in each direction.
+  - Coordinates start at 1, and **y = 1 is the bottom row** ("y goes up").
+  - `getGridData()` / `setGridData()` swap to top-row-first arrays, which is the order the board is drawn in and the history stores.
+- `src/checkWinner.fn.js`: `findWinningLines` returns every winning line's squares. `checkWinner` returns just the winner.
+- `src/UIComponents/Game.js` owns the game state: the live grid, the history of moves, whose turn it is, the score and whether the sidebar is open.
+- `src/UIComponents/Board.js` draws the squares, then draws the grid lines and any winning lines as SVGs laid over the grid. The SVGs work in grid units (one unit per square), so they line up at any board size or shape.
+- `src/adjustBoardSize.fn.js` sizes the squares to fit the window:
+  - up to 75% of the available width and height;
+  - 85% of the width on screens narrower than 700px;
+  - squares keep a 1.1:1 width-to-height ratio.
+- The sidebar is `Sidebar.js`, plus one component per panel, e.g. `HistoryPanel.js` with `MiniBoard.js`.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Tests sit next to the code they test (`*.test.js`) and use Jest with Testing Library. In tests, `.svg` imports are swapped for a stub (`src/testSupport/svgMock.js`, set up in `package.json`'s `jest` section). Create React App's own SVG handling builds elements React 19 won't render.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Built with
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+[Create React App](https://github.com/facebook/create-react-app) (`react-scripts` 5) and React 19. Create React App is no longer maintained; moving to a maintained build tool is tracked in issue #24.
