@@ -14,7 +14,7 @@ export default class GridState {
         this.sizeY = gridSizeY;
     }
 
-    setGridData(gridData, isTransposed){
+    setGridData(gridData){
         this.gridArray = cloneDeep(gridData).reverse();
     }
 
@@ -30,7 +30,7 @@ export default class GridState {
     }
 
 
-    findContinuousSequences(minNum, maxNum, includeDiagonal){
+    findContinuousSequences(minNum, includeDiagonal){
         //we are going to cycle through all of the elements and check for adjacents
         //then we check recursively to find if it is a continuous sequence of values
         let gridState = this;

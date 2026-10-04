@@ -205,7 +205,7 @@ test('Continuous sequences without diagonals', () => {
 
     //only the vertical (index 1) and horizontal (index 3) directions should remain
     let allResults = testGridC.findContinuousSequences();
-    let straightResults = testGridC.findContinuousSequences(undefined, undefined, false);
+    let straightResults = testGridC.findContinuousSequences(undefined, false);
 
     expect(straightResults).toEqual([allResults[1], allResults[3]]);
 });

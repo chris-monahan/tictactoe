@@ -45,7 +45,7 @@ test('Clicking a square reports its grid coordinates', () =>{
     let { container } = render(<Board gridState={fourByThree} onClick={onClick} />);
 
     container.querySelector('.square_X_1.square_Y_3 .squareBtn').click();
-    expect(onClick).toHaveBeenCalledWith(1, 3, expect.anything());
+    expect(onClick).toHaveBeenCalledWith(1, 3);
     expect(container.querySelectorAll('.squareWrapper')[0].querySelector('.squareBtn')).toBe(
         container.querySelector('.square_X_1.square_Y_3 .squareBtn'));
 });

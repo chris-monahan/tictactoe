@@ -90,7 +90,7 @@ class Board extends React.Component {
         }
   
         return <div key={squareIndex} id={"boardSquare_" + squareIndex} className={classString}>
-          <button className="squareBtn" onClick={() => thisBoard.props.onClick(pointX, pointY, squareIndex)}>
+          <button className="squareBtn" onClick={() => thisBoard.props.onClick(pointX, pointY)}>
             {playPiece}
           </button>
         </div>;

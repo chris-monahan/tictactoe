@@ -35,7 +35,7 @@ class Game extends React.Component {
       }));
     }
   
-    handleClick(pointX, pointY, squareIndex){
+    handleClick(pointX, pointY){
       const history = this.state.history.slice(0, this.state.stepNumber + 1);  
       const currentGridState = this.state.currentGridState;
 
@@ -113,7 +113,7 @@ class Game extends React.Component {
           <div className="game-board-container" id="game-board-container">
             <Board 
               gridState={currentGridState}
-              onClick={(pointX, pointY, squareIndex) => this.handleClick(pointX, pointY, squareIndex)}
+              onClick={(pointX, pointY) => this.handleClick(pointX, pointY)}
               />
             <PlayStatus
               gridState={currentGridState}
