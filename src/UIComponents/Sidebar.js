@@ -6,10 +6,15 @@ const sidebarComponents = {
     history: HistoryPanel,
 };
 
-function Sidebar({ components, ...panelProps }) {
+function Sidebar({ components, expanded = true, onToggle, ...panelProps }) {
 
     return <div className="sidebarWrapper">
-            {components.map((name) => {
+            {onToggle &&
+            <button className="sidebarToggle" aria-expanded={expanded}
+                aria-label={expanded ? "Hide sidebar" : "Show sidebar"} onClick={onToggle}>
+                {expanded ? "»" : "«"}
+            </button>}
+            {expanded && components.map((name) => {
                 const Component = sidebarComponents[name];
                 return Component ? <Component key={name} {...panelProps} /> : null;
             })}

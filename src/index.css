@@ -36,6 +36,10 @@ body{
   grid-template-rows: auto;
 }
 
+#game.withSidebar.sidebarCollapsed{
+  grid-template-columns: auto 3em;
+}
+
 #game-board-container{
   text-align:center;
   max-height:100vh;
@@ -225,4 +229,39 @@ body{
 
 .miniSquare svg .noughtPath {
   stroke: var(--nought-piece-col);
+}
+
+.sidebarToggle {
+  display: block;
+  margin-left: auto;
+  padding: 0 4px;
+  font-size: 1.5em;
+  line-height: 1;
+  background: none;
+  border: 0px;
+  cursor: pointer;
+}
+
+#game.sidebarCollapsed .sidebarToggle {
+  margin: 0 auto;
+}
+
+/* Narrow screens: keep this in step with narrowScreenWidth in Game.js.
+   The sidebar column stays narrow and the expanded sidebar opens over the board. */
+@media (max-width: 699px) {
+  #game.withSidebar {
+    grid-template-columns: auto 3em;
+  }
+
+  #game.withSidebar:not(.sidebarCollapsed) .game-info {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(300px, 85vw);
+    max-height: none;
+    background: white;
+    box-shadow: -4px 0 12px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+  }
 }

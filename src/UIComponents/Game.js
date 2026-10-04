@@ -5,6 +5,11 @@ import GridState from '../GridState';
 import PlayStatus from './PlayStatus'
 import config from '../config';
 import checkWinner from '../checkWinner.fn';
+import adjustBoardSize from '../adjustBoardSize.fn';
+
+//Below this window width the sidebar starts collapsed and opens over the board
+//(keep in step with the max-width media query in index.css)
+const narrowScreenWidth = 700;
 
 class Game extends React.Component {
 
@@ -20,7 +25,21 @@ class Game extends React.Component {
         currentGridState:this.gridStateTemplate,
         stepNumber: 0,
         xIsNext: true,
+        sidebarExpanded: window.innerWidth >= narrowScreenWidth,
       }
+    }
+
+    componentDidUpdate(prevProps, prevState){
+      //the board's container changes size when the sidebar is toggled
+      if(prevState.sidebarExpanded !== this.state.sidebarExpanded){
+        adjustBoardSize();
+      }
+    }
+
+    toggleSidebar(){
+      this.setState((state) => ({
+        sidebarExpanded: !state.sidebarExpanded,
+      }));
     }
   
     handleClick(pointX, pointY, squareIndex){
@@ -80,7 +99,7 @@ class Game extends React.Component {
       const currentGridState = this.state.currentGridState;
   
       return (
-        <div className={`game ${config.sidebar.enabled ? "withSidebar" : ""}`} id="game">
+        <div className={`game ${config.sidebar.enabled ? "withSidebar" : ""} ${this.state.sidebarExpanded ? "" : "sidebarCollapsed"}`} id="game">
           <div className="game-board-container" id="game-board-container">
             <Board 
               gridState={currentGridState}
@@ -97,6 +116,8 @@ class Game extends React.Component {
           <div className="game-info">
             <Sidebar 
               components={config.sidebar.components}
+              expanded={this.state.sidebarExpanded}
+              onToggle={() => this.toggleSidebar()}
               history={history}
               stepNumber={this.state.stepNumber}
               onJump={(step) => this.jumpTo(step)}/>

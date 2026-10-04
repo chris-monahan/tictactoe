@@ -1,5 +1,12 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import Game from './Game';
+import adjustBoardSize from '../adjustBoardSize.fn';
+
+jest.mock('../adjustBoardSize.fn', () => jest.fn());
+
+afterEach(() => {
+    window.innerWidth = 1024;
+});
 
 function clickSquare(container, pointX, pointY){
     fireEvent.click(container.querySelector(`.square_X_${pointX}.square_Y_${pointY} .squareBtn`));
@@ -102,4 +109,37 @@ test('Reset starts a new game with an empty history', () =>{
 
     expect(container.querySelectorAll('.historyStep').length).toEqual(1);
     expect(screen.queryByText('Move 1: X')).toBeNull();
+});
+
+test('The sidebar starts expanded on a wide screen and can be collapsed and expanded', () =>{
+    window.innerWidth = 1024;
+    render(<Game sizeX={3} sizeY={3} />);
+    let toggle = screen.getByRole('button', { name: 'Hide sidebar' });
+
+    expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByRole('heading', { name: 'History' })).toBeInTheDocument();
+
+    fireEvent.click(toggle);
+    toggle = screen.getByRole('button', { name: 'Show sidebar' });
+    expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.queryByRole('heading', { name: 'History' })).toBeNull();
+
+    fireEvent.click(toggle);
+    expect(screen.getByRole('heading', { name: 'History' })).toBeInTheDocument();
+});
+
+test('The sidebar starts collapsed on a narrow screen', () =>{
+    window.innerWidth = 400;
+    render(<Game sizeX={3} sizeY={3} />);
+
+    expect(screen.getByRole('button', { name: 'Show sidebar' })).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.queryByRole('heading', { name: 'History' })).toBeNull();
+});
+
+test('Toggling the sidebar resizes the board', () =>{
+    render(<Game sizeX={3} sizeY={3} />);
+    adjustBoardSize.mockClear();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Hide sidebar' }));
+    expect(adjustBoardSize).toHaveBeenCalled();
 });
