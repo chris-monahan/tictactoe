@@ -12,7 +12,7 @@ function init(config){
 
     docRoot.style.setProperty("--sidebar-bg-color", config.sidebar.backgroundColor);
 
-    window.addEventListener("resize",debounce(adjustBoardSize),200);
+    window.addEventListener("resize",debounce(adjustBoardSize,200));
 }
 
 export default init; 
