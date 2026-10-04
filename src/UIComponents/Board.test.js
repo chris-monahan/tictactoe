@@ -2,10 +2,6 @@ import { render } from '@testing-library/react';
 import Board from './Board';
 import GridState from '../GridState';
 
-//CRA's Jest transform builds SVG components as pre-React-19 elements, which React 19 won't render
-jest.mock('../cross.svg', () => ({ ReactComponent: () => null }));
-jest.mock('../nought.svg', () => ({ ReactComponent: () => null }));
-
 test('Renders one square per grid point on a non-square board', () =>{
     let fourByThree = new GridState(4,3);
     let { container } = render(<Board gridState={fourByThree} onClick={() => {}} />);

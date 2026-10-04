@@ -18,6 +18,11 @@
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "eject": "react-scripts eject"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.svg$": "<rootDir>/src/testSupport/svgMock.js"
+    }
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
