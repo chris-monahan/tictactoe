@@ -13,9 +13,10 @@ class Board extends React.Component {
       let squares = this.props.gridState; 
       let rows = [];
 
+      //GridState has y=1 as the bottom row, so draw from the top row (y = sizeY) down
       for(let i = 0; i < squares.sizeY; i++){
           let placeFlags = {colTop: i === 0, colBottom: i === (squares.sizeY - 1)}
-          rows[i] = renderRow(squares.sizeX, i, placeFlags);
+          rows[i] = renderRow(squares.sizeX, squares.sizeY - i, placeFlags);
       }
 
       return (
@@ -56,10 +57,10 @@ class Board extends React.Component {
         </div>;
       }
 
-      function renderRow(length, rowNum, placeFlags, wrap){
+      function renderRow(length, pointY, placeFlags, wrap){
         let rowSquares = [];
         for(let i = 0; i < length; i++){
-          rowSquares[i] = renderSquare(i + 1, rowNum + 1, Object.assign({
+          rowSquares[i] = renderSquare(i + 1, pointY, Object.assign({
             rowStart: i === 0, 
             rowEnd: i === (length - 1)
           }, placeFlags));
