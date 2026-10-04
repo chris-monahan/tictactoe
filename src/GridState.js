@@ -187,7 +187,7 @@ export default class GridState {
         //cycle through all of the first dimension (y axis) and collect all of the values at the required x axis point
         for(let i = 0; i < this.sizeY; i++){
             let currentArray = this.gridArray[i];
-            let collumnVal = currentArray[xPos];
+            let collumnVal = currentArray[xPos - 1];
             returnArray.push(collumnVal);
         }
 
@@ -246,7 +246,7 @@ export default class GridState {
     //         |3 x 4|
     //         |5 6 7|
     //          ‾ ‾ ‾
-    // n.b. 0,2,5,7 are the diagonal adjacents 1,3,4,5 are the straight adjacents
+    // n.b. 0,2,5,7 are the diagonal adjacents 1,3,4,6 are the straight adjacents
     //
     // squares which are against the edge of the grid will simply have null as 
     // the adjacent for the non-existent square

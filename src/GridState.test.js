@@ -180,3 +180,15 @@ test('Non-square grid set and get corners', () =>{
                                                 ['a',null,null,'b']]);
     expect(fourByThree.findEmptySquares().length).toEqual(8);
 });
+
+test('Get row and column', () =>{
+    let fourByThree = new GridState(4,3);
+    fourByThree.setGridData([   [9,10,11,12],
+                                [5,6,7,8],
+                                [1,2,3,4]]);
+
+    expect(fourByThree.getRow(1)).toEqual([1,2,3,4]);
+    expect(fourByThree.getRow(3)).toEqual([9,10,11,12]);
+    expect(fourByThree.getColumn(1)).toEqual([1,5,9]);
+    expect(fourByThree.getColumn(4)).toEqual([4,8,12]);
+});
