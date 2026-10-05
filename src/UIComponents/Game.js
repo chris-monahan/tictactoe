@@ -128,6 +128,7 @@ class Game extends React.Component {
           {config.sidebar.enabled && 
             <Sidebar 
               components={config.sidebar.components}
+              label={config.sidebar.tabLabel}
               expanded={this.state.sidebarExpanded}
               onToggle={() => this.toggleSidebar()}
               history={history}

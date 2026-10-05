@@ -13,7 +13,7 @@ function clickSquare(container, pointX, pointY){
 }
 
 function openSidebar(){
-    fireEvent.click(screen.getByRole('button', { name: 'Show sidebar' }));
+    fireEvent.click(screen.getByRole('button', { name: 'History' }));
 }
 
 function pieceAt(container, pointX, pointY){
@@ -119,17 +119,28 @@ test('Reset starts a new game with an empty history', () =>{
 
 test('The sidebar starts hidden and can be opened and closed', () =>{
     render(<Game sizeX={3} sizeY={3} />);
-    let toggle = screen.getByRole('button', { name: 'Show sidebar' });
+    let tab = screen.getByRole('button', { name: 'History' });
 
-    expect(toggle).toHaveAttribute('aria-expanded', 'false');
+    expect(tab).toHaveAttribute('aria-expanded', 'false');
     expect(screen.queryByRole('heading', { name: 'History' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Close History' })).toBeNull();
 
-    fireEvent.click(toggle);
-    expect(toggle).toHaveAccessibleName('Hide sidebar');
-    expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    fireEvent.click(tab);
+    expect(tab).toHaveAttribute('aria-expanded', 'true');
     expect(screen.getByRole('heading', { name: 'History' })).toBeInTheDocument();
 
-    fireEvent.click(toggle);
+    fireEvent.click(screen.getByRole('button', { name: 'Close History' }));
+    expect(tab).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.queryByRole('heading', { name: 'History' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Close History' })).toBeNull();
+});
+
+test('The sidebar tab closes the sidebar too', () =>{
+    render(<Game sizeX={3} sizeY={3} />);
+    let tab = screen.getByRole('button', { name: 'History' });
+
+    fireEvent.click(tab);
+    fireEvent.click(tab);
     expect(screen.queryByRole('heading', { name: 'History' })).toBeNull();
 });
 
@@ -144,7 +155,7 @@ test('Toggling the sidebar leaves the board size alone', () =>{
     adjustBoardSize.mockClear();
 
     openSidebar();
-    fireEvent.click(screen.getByRole('button', { name: 'Hide sidebar' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Close History' }));
     expect(adjustBoardSize).not.toHaveBeenCalled();
 });
 
@@ -212,14 +223,14 @@ test('A game abandoned with reset is not counted', () =>{
     expect(score).toHaveTextContent('X: 0O: 0Draws: 0');
 });
 
-test('The sidebar toggle is the same single button whether open or closed', () =>{
+test('The sidebar tab is the same single button whether open or closed', () =>{
     let { container } = render(<Game sizeX={3} sizeY={3} />);
-    let toggle = container.querySelector('.sidebarToggle');
+    let toggle = container.querySelector('.sidebarTab');
     let wasExpanded = toggle.getAttribute('aria-expanded');
 
     fireEvent.click(toggle);
-    expect(container.querySelectorAll('.sidebarToggle').length).toEqual(1);
-    expect(container.querySelector('.sidebarToggle')).toBe(toggle);
+    expect(container.querySelectorAll('.sidebarTab').length).toEqual(1);
+    expect(container.querySelector('.sidebarTab')).toBe(toggle);
     expect(toggle.getAttribute('aria-expanded')).not.toEqual(wasExpanded);
 });
 

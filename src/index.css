@@ -3,12 +3,32 @@
   /* The design is light only: keep browser-drawn colours (default text, buttons, scrollbars) light
      even where the browser or a host page prefers a dark colour scheme */
   color-scheme: light;
+  --sidebar-width: min(300px, 85vw);
+  --sidebar-tab-width: 34px;
+  --sidebar-tab-height: 110px;
+  --sidebar-tab-font-size: 1rem;
+  --sidebar-tab-top: 12px;
+  --sidebar-close-size: 44px;
+  --sidebar-open-time: 250ms;
+  --sidebar-close-time: 200ms;
+  /* The close button is centred on the height the tab was at, so a second tap there closes it */
+  --sidebar-close-top: calc(var(--sidebar-tab-top) + (var(--sidebar-tab-height) - var(--sidebar-close-size)) / 2);
   --grid-x-num:3;
   --grid-y-num:3;
   --grid-square-width:30vh;
   --grid-square-height:26vh;
   --nought-piece-col:rgb(20, 70, 220);
   --cross-piece-col:rgb(220, 40, 20);
+}
+
+/* A smaller tab on phones, so it crowds the board less (500px matches
+   config.board.sizing.narrowScreenWidth). The close button follows it. */
+@media (max-width: 500px){
+  :root{
+    --sidebar-tab-width: 28px;
+    --sidebar-tab-height: 88px;
+    --sidebar-tab-font-size: 0.85rem;
+  }
 }
 
 body, html {
@@ -117,7 +137,8 @@ body{
   stroke: var(--cross-piece-col);
 }
 
-/* The sidebar opens over the page, so the board's size and position never depend on it */
+/* The sidebar opens over the page, so the board's size and position never depend on it. While
+   closed it waits just off the right edge, hidden once it has finished sliding out. */
 .sidebarPanel {
   position: fixed;
   top: 0;
@@ -125,13 +146,32 @@ body{
   bottom: 0;
   z-index: 10;
   box-sizing: border-box;
-  width: min(300px, 85vw);
-  padding: 10px;
-  overflow-y: auto;
-  text-align: left;
+  width: var(--sidebar-width);
   background: white;
   border-left: 4px solid black;
   box-shadow: -4px 0 12px rgba(0, 0, 0, 0.3);
+  transform: translateX(100%);
+  visibility: hidden;
+  /* closing speeds up as it goes, then hides */
+  transition: transform var(--sidebar-close-time) cubic-bezier(0.4, 0, 1, 1),
+              visibility 0s linear var(--sidebar-close-time);
+}
+
+.sidebarPanel.open {
+  transform: none;
+  visibility: visible;
+  /* opening shows at once, then slows down as it arrives */
+  transition: transform var(--sidebar-open-time) cubic-bezier(0.2, 0.8, 0.2, 1),
+              visibility 0s;
+}
+
+/* Scrolls inside the panel, so the close button stays put */
+.sidebarContent {
+  box-sizing: border-box;
+  height: 100%;
+  padding: 10px;
+  overflow-y: auto;
+  text-align: left;
 }
 
 .playPiece{
@@ -289,10 +329,10 @@ body{
   width: 4em;
   height: 4em;
 }
-/* As tall as the floating sidebar toggle, so the list starts below it */
+/* Level with the close button, and clear of it */
 .sidebarHistory h2 {
-  margin: 2px 0 12px 0;
-  line-height: 44px;
+  margin: calc(var(--sidebar-close-top) - 10px) var(--sidebar-close-size) 12px 0;
+  line-height: var(--sidebar-close-size);
 }
 
 .historyList {
@@ -355,23 +395,106 @@ body{
   stroke: var(--nought-piece-col);
 }
 
-/* One floating button, fixed in the same place whether the sidebar is open or closed */
-.sidebarToggle {
+/* The tab sticks out of the right edge of the screen while the sidebar is closed, and rides on
+   the panel's edge while it's open */
+.sidebarTab {
   color: inherit;
   position: fixed;
-  top: 12px;
-  right: 12px;
+  top: var(--sidebar-tab-top);
+  right: 0;
   z-index: 20;
-  width: 44px;
-  height: 44px;
-  padding: 0px;
-  font-size: 1.5em;
-  line-height: 1;
+  box-sizing: border-box;
+  width: var(--sidebar-tab-width);
+  height: var(--sidebar-tab-height);
+  padding: 0;
   background: white;
   border: 2px solid black;
-  border-radius: 50%;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  border-right: none;
+  border-radius: 10px 0 0 10px;
+  box-shadow: -2px 2px 6px rgba(0, 0, 0, 0.25);
   cursor: pointer;
+  transition: transform var(--sidebar-close-time) cubic-bezier(0.4, 0, 1, 1);
+}
+
+.sidebarTab[aria-expanded="true"] {
+  transform: translateX(calc(-1 * var(--sidebar-width)));
+  transition: transform var(--sidebar-open-time) cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Reads bottom to top, with the tops of the letters facing into the page */
+.sidebarTabLabel {
+  display: inline-block;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: var(--sidebar-tab-font-size);
+  letter-spacing: 0.05em;
+}
+
+/* The circle around the arrow sits level with the History heading. The button around it reaches up
+   and right into the corner of the screen, so a tap there closes the sidebar too, but goes no
+   further left or down than the circle. */
+.sidebarClose {
+  color: inherit;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 20;
+  box-sizing: border-box;
+  width: calc(var(--sidebar-close-size) + 10px);
+  height: calc(var(--sidebar-close-top) + var(--sidebar-close-size));
+  padding: 0 10px 0 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.sidebarCloseIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--sidebar-close-size);
+  height: var(--sidebar-close-size);
+  border-radius: 50%;
+  transition: background-color 0.15s ease;
+}
+
+.sidebarCloseIcon svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sidebarClose:hover .sidebarCloseIcon,
+.sidebarClose:focus-visible .sidebarCloseIcon {
+  background: #ececec;
+}
+
+/* Keyboard focus also gets a ring, around the circle rather than the whole corner */
+.sidebarClose:focus-visible .sidebarCloseIcon {
+  outline: 2px solid black;
+}
+
+.sidebarTab:hover {
+  background: #eee;
+}
+
+/* After the sidebar rules so it wins: open and close at once */
+@media (prefers-reduced-motion: reduce){
+  .sidebarPanel,
+  .sidebarPanel.open,
+  .sidebarTab,
+  .sidebarTab[aria-expanded="true"],
+  .sidebarCloseIcon{
+    transition: none;
+  }
 }
 
 .score{

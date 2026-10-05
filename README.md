@@ -11,7 +11,7 @@ I'm considering future ambitions to develop this into a suite of classic board g
 - A line is drawn through the winning pieces.
 - When a game ends, the result and a "Play again?" button (both in the winner's colour) replace the status under the board. A reset button is there during play.
 - A running score of X wins, O wins and draws. It lasts until the page is reloaded.
-- A history sidebar, opened with the floating button in the top-right corner. It shows a small picture of the board after every move, highlights the move being shown, and jumps back to any move when clicked.
+- A history sidebar that slides in from the "History" tab on the right edge of the screen. While it's open, a close arrow sits over the tab's old spot, so a second tap there closes it. It shows a small picture of the board after every move, highlights the move being shown, and jumps back to any move when clicked.
 - The board resizes to fit the window and stays centred. The sidebar opens over the page, so it never moves or shrinks the board.
 
 ## Running it
@@ -38,8 +38,9 @@ Everything is in `src/config.js`:
 | `board.sizeX`, `board.sizeY` | Board width and height in squares. The winning line length is the shorter of the two. |
 | `board.crossColor`, `board.noughtColor` | Colours of the X and O pieces, their mini-board pictures, their winning lines and their scores. |
 | `board.sizing` | How much of the available space the board may take up. Its width share slides from `narrowWidthShare` on windows `narrowScreenWidth` px wide or less to `wideWidthShare` at `wideScreenWidth` px and wider. Its height share is always `heightShare`. |
-| `sidebar.enabled` | Whether there is a sidebar (and its toggle button) at all. |
+| `sidebar.enabled` | Whether there is a sidebar (and its tab) at all. |
 | `sidebar.components` | Which panels the sidebar shows, in order. Each name is looked up in `src/UIComponents/Sidebar.js`. `'history'` is the only one so far. |
+| `sidebar.tabLabel` | The text written down the tab that opens the sidebar. |
 
 ## How the code fits together
 

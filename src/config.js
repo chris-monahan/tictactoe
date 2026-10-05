@@ -18,6 +18,8 @@ const config = {
     sidebar:{
         enabled:true,
         components:['history'],
+        //The text written down the tab that opens the sidebar
+        tabLabel:'History',
     }
 }
 
