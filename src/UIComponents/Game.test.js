@@ -110,7 +110,7 @@ test('The sidebar history lists each move and jumps back to it', () =>{
     expect(screen.getByRole('button', { name: 'Move 1: X' })).toHaveAttribute('aria-current', 'step');
 });
 
-test('Reset starts a new game with an empty history', () =>{
+test('Reset goes back to the start like the Start step, keeping the history', () =>{
     let { container } = render(<Game sizeX={3} sizeY={3} />);
     openSidebar();
 
@@ -118,8 +118,13 @@ test('Reset starts a new game with an empty history', () =>{
     clickSquare(container, 2, 2);
     fireEvent.click(screen.getByAltText('reset'));
 
-    expect(container.querySelectorAll('.historyStep').length).toEqual(1);
-    expect(screen.queryByRole('button', { name: 'Move 1: X' })).toBeNull();
+    expect(pieceAt(container, 1, 1)).toEqual(null);
+    expect(container.querySelectorAll('.historyStep').length).toEqual(3);
+    expect(screen.getByRole('button', { name: 'Start' })).toHaveAttribute('aria-current', 'step');
+    expect(screen.getByText('Move 0 of 2')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Redo' }));
+    expect(pieceAt(container, 1, 1)).toEqual('X');
 });
 
 test('The sidebar starts hidden and can be opened and closed', () =>{

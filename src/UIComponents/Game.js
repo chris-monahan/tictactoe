@@ -118,7 +118,7 @@ class Game extends React.Component {
               />
             <PlayStatus
               gridState={currentGridState}
-              onReset={() => this.newGame()}
+              onReset={() => this.jumpTo(0)}
               onPlayAgain={() => this.newGame()}
               xIsNext={this.state.xIsNext}
               />  
