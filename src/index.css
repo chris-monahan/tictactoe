@@ -152,14 +152,18 @@ body{
 #playStatus .status-msg{
   font-size:2em;
   margin:10px;
+  vertical-align: middle;
 }
 
+/* No taller than the status text beside it, so the line doesn't grow when it appears
+   (the board was sized before the game ended) */
 #playStatus .play-again-btn{
   margin: 0 10px;
-  padding: 0.3em 0.8em;
+  padding: 0.25em 0.8em;
   font: inherit;
   font-size: 1.4em;
-  vertical-align: text-bottom;
+  line-height: 1;
+  vertical-align: middle;
   color: white;
   background: black;
   border: 0px;

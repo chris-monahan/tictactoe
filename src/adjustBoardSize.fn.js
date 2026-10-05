@@ -9,6 +9,18 @@ function widthLimitFor(windowWidth){
     return sizing.narrowWidthShare + (sizing.wideWidthShare - sizing.narrowWidthShare) * progress;
 }
 
+//With the squares at zero size, how far down the container its contents reach:
+//the board's own padding plus everything below it (status, buttons, score)
+function heightOfEverythingButSquares(containingElement){
+    let containerTop = containingElement.getBoundingClientRect().top;
+    let contentBottom = containerTop;
+    for(const child of containingElement.children){
+        let childBottom = child.getBoundingClientRect().bottom + (parseFloat(getComputedStyle(child).marginBottom) || 0);
+        contentBottom = Math.max(contentBottom, childBottom);
+    }
+    return contentBottom - containerTop;
+}
+
 function adjustBoardSize(){
     let docRoot = document.documentElement;
     let containingElement = document.getElementById("game-board-container")
@@ -27,7 +39,10 @@ function adjustBoardSize(){
         let squareAspect = 1.1;
 
         let maxBoardWidth = containerWidth * boardWidthLimitOffset;
-        let maxBoardHeight = containerHeight * boardHeightLimitOffset;
+        //on short screens (e.g. phones held sideways) what's below the board can need more than
+        //the height share leaves, so also keep the board within the height actually left over
+        let maxBoardHeight = Math.min(containerHeight * boardHeightLimitOffset,
+                                      containerHeight - heightOfEverythingButSquares(containingElement));
 
         //take the largest square that lets the whole board fit both ways
         let squareWidthPx = Math.min(maxBoardWidth / config.board.sizeX,

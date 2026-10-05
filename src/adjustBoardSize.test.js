@@ -125,3 +125,17 @@ test('The sizing settings come from config', () =>{
     config.board.sizing = defaults;
     window.innerWidth = 1024;
 });
+
+test('On a short screen the board only takes the height left after what is below it', () =>{
+    //a 400px tall container whose other content (status, score) reaches 250px down with the board at zero size
+    setUpContainer(2000, 400);
+    let container = document.getElementById('game-board-container');
+    let below = document.createElement('div');
+    container.appendChild(below);
+    container.getBoundingClientRect = () => ({ top: 0, bottom: 400, height: 400 });
+    below.getBoundingClientRect = () => ({ top: 200, bottom: 250, height: 50 });
+    adjustBoardSize();
+
+    //150px left over, rather than 75% of 400px: 150 / 3 squares, as the square height
+    expect(getSquareSize()[1]).toBeCloseTo(50);
+});
