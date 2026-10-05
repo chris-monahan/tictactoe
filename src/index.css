@@ -1,5 +1,8 @@
 /*Defaults for root properties - these should get overridden atm*/
 :root{
+  /* The design is light only: keep browser-drawn colours (default text, buttons, scrollbars) light
+     even where the browser or a host page prefers a dark colour scheme */
+  color-scheme: light;
   --grid-x-num:3;
   --grid-y-num:3;
   --grid-square-width:30vh;
@@ -15,6 +18,8 @@ body, html {
 
 body{
   font: 14px "Century Gothic", Futura, sans-serif;
+  color: black;
+  background: white;
 }
 
 /*ol, ul {
@@ -207,6 +212,7 @@ body{
 }
 
 .historyBtn {
+  color: inherit;
   display: flex;
   align-items: center;
   gap: 1em;
@@ -261,6 +267,7 @@ body{
 
 /* One floating button, fixed in the same place whether the sidebar is open or closed */
 .sidebarToggle {
+  color: inherit;
   position: fixed;
   top: 12px;
   right: 12px;
