@@ -79,3 +79,12 @@ test('Undo is unavailable at the start and Redo at the latest move', () =>{
     fireEvent.click(redo);
     expect(onJump).not.toHaveBeenCalled();
 });
+
+test('Labels each move with the piece icon of who made it', () =>{
+    let { container } = render(<HistoryPanel history={history} stepNumber={2} onJump={() => {}} />);
+    let labels = container.querySelectorAll('.historyLabel');
+
+    expect(labels[0].querySelector('.pieceIcon')).toBeNull();
+    expect(labels[1].querySelector('.pieceIcon-X')).not.toBeNull();
+    expect(labels[2].querySelector('.pieceIcon-O')).not.toBeNull();
+});

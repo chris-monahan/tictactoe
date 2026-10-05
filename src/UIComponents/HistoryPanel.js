@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import MiniBoard from './MiniBoard';
+import PieceIcon from './PieceIcon';
 
 //Steps back or forward one move. At either end it stays focusable (aria-disabled rather than
 //disabled), so keyboard focus isn't lost while stepping through the game.
@@ -27,7 +28,7 @@ function HistoryPanel({ history, stepNumber, onJump }) {
     const steps = history.map((step, move) => {
         const isCurrent = move === stepNumber;
         //X always moves first, so odd moves are X's
-        const label = move ? "Move " + move + ": " + (move % 2 === 1 ? "X" : "O") : "Start";
+        const label = move ? <>Move {move}: <PieceIcon piece={move % 2 === 1 ? "X" : "O"} /></> : "Start";
 
         return <li key={move} className={"historyStep" + (isCurrent ? " current" : "")}
                 ref={isCurrent ? currentStep : undefined}>

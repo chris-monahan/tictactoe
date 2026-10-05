@@ -1,5 +1,6 @@
 import React from 'react';
 import checkWinner from "../checkWinner.fn"
+import PieceIcon from './PieceIcon';
 
 function PlayStatus({ gridState, xIsNext, onReset, onPlayAgain }) {
 
@@ -12,7 +13,7 @@ function PlayStatus({ gridState, xIsNext, onReset, onPlayAgain }) {
       return <div id="playStatus">
           <hr />
           <div className="status-panel game-over">
-            <span className={"status-msg status-msg-" + (winner ? winner : "draw")}>{winner ? winner + " is the winner!" : "It's a draw!"}</span>
+            <span className={"status-msg status-msg-" + (winner ? winner : "draw")}>{winner ? <><PieceIcon piece={winner} /> is the winner!</> : "It's a draw!"}</span>
             <button className={"play-again-btn play-again-" + (winner ? winner : "draw")} onClick={()=>{onPlayAgain()}}>Play again?</button>
           </div>
         </div>
@@ -21,7 +22,7 @@ function PlayStatus({ gridState, xIsNext, onReset, onPlayAgain }) {
     return <div id="playStatus">
         <hr />
         <div className="status-panel">
-          <span className="status-msg">{'Next player: ' + (xIsNext ? 'X' : 'O')}</span>
+          <span className="status-msg">Next player: <PieceIcon piece={xIsNext ? 'X' : 'O'} /></span>
           <button id="reset-btn" onClick={()=>{onReset()}}><img alt="reset" src="reset.svg"></img></button>
         </div>
       </div>

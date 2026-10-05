@@ -2,6 +2,11 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import Game from './Game';
 import adjustBoardSize from '../adjustBoardSize.fn';
 
+//the status message has the piece as an icon, so match on its whole text
+function statusMessage(){
+    return document.querySelector('.status-msg');
+}
+
 jest.mock('../adjustBoardSize.fn', () => jest.fn());
 
 afterEach(() => {
@@ -25,15 +30,15 @@ function pieceAt(container, pointX, pointY){
 
 test('Players take turns placing X then O', () =>{
     let { container } = render(<Game sizeX={3} sizeY={3} />);
-    expect(screen.getByText('Next player: X')).toBeInTheDocument();
+    expect(statusMessage()).toHaveTextContent('Next player: X');
 
     clickSquare(container, 1, 1);
     expect(pieceAt(container, 1, 1)).toEqual('X');
-    expect(screen.getByText('Next player: O')).toBeInTheDocument();
+    expect(statusMessage()).toHaveTextContent('Next player: O');
 
     clickSquare(container, 2, 2);
     expect(pieceAt(container, 2, 2)).toEqual('O');
-    expect(screen.getByText('Next player: X')).toBeInTheDocument();
+    expect(statusMessage()).toHaveTextContent('Next player: X');
 });
 
 test('Clicking an occupied square does nothing', () =>{
@@ -42,7 +47,7 @@ test('Clicking an occupied square does nothing', () =>{
     clickSquare(container, 1, 1);
     clickSquare(container, 1, 1);
     expect(pieceAt(container, 1, 1)).toEqual('X');
-    expect(screen.getByText('Next player: O')).toBeInTheDocument();
+    expect(statusMessage()).toHaveTextContent('Next player: O');
 });
 
 test('A win is announced and stops further moves', () =>{
@@ -54,7 +59,7 @@ test('A win is announced and stops further moves', () =>{
     clickSquare(container, 2, 3);
     clickSquare(container, 2, 2);
     clickSquare(container, 3, 3);
-    expect(screen.getByText('X is the winner!')).toBeInTheDocument();
+    expect(statusMessage()).toHaveTextContent('X is the winner!');
 
     clickSquare(container, 3, 1);
     expect(pieceAt(container, 3, 1)).toEqual(null);
@@ -79,7 +84,7 @@ test('Reset clears the board and gives X the next move', () =>{
 
     expect(pieceAt(container, 1, 1)).toEqual(null);
     expect(pieceAt(container, 2, 2)).toEqual(null);
-    expect(screen.getByText('Next player: X')).toBeInTheDocument();
+    expect(statusMessage()).toHaveTextContent('Next player: X');
 });
 
 test('Uses the board size it is given', () =>{
@@ -96,13 +101,13 @@ test('The sidebar history lists each move and jumps back to it', () =>{
 
     clickSquare(container, 1, 1);
     clickSquare(container, 2, 2);
-    expect(screen.getByText('Move 2: O')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Move 2: O' })).toBeInTheDocument();
 
-    fireEvent.click(screen.getByText('Move 1: X'));
+    fireEvent.click(screen.getByRole('button', { name: 'Move 1: X' }));
     expect(pieceAt(container, 1, 1)).toEqual('X');
     expect(pieceAt(container, 2, 2)).toEqual(null);
-    expect(screen.getByText('Next player: O')).toBeInTheDocument();
-    expect(screen.getByText('Move 1: X').closest('button')).toHaveAttribute('aria-current', 'step');
+    expect(statusMessage()).toHaveTextContent('Next player: O');
+    expect(screen.getByRole('button', { name: 'Move 1: X' })).toHaveAttribute('aria-current', 'step');
 });
 
 test('Reset starts a new game with an empty history', () =>{
@@ -114,7 +119,7 @@ test('Reset starts a new game with an empty history', () =>{
     fireEvent.click(screen.getByAltText('reset'));
 
     expect(container.querySelectorAll('.historyStep').length).toEqual(1);
-    expect(screen.queryByText('Move 1: X')).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Move 1: X' })).toBeNull();
 });
 
 test('The sidebar starts hidden and can be opened and closed', () =>{
@@ -170,7 +175,7 @@ test('Play again starts a new game after a win', () =>{
 
     expect(pieceAt(container, 1, 3)).toEqual(null);
     expect(container.querySelectorAll('.historyStep').length).toEqual(1);
-    expect(screen.getByText('Next player: X')).toBeInTheDocument();
+    expect(statusMessage()).toHaveTextContent('Next player: X');
     expect(screen.queryByRole('button', { name: 'Play again?' })).toBeNull();
 });
 
@@ -208,9 +213,9 @@ test('Replaying the end of a finished game does not count it twice', () =>{
     let score = screen.getByLabelText('Score');
 
     playMoves(container, xWins);
-    fireEvent.click(screen.getByText('Move 4: O'));
+    fireEvent.click(screen.getByRole('button', { name: 'Move 4: O' }));
     clickSquare(container, 3, 3);
-    expect(screen.getByText('X is the winner!')).toBeInTheDocument();
+    expect(statusMessage()).toHaveTextContent('X is the winner!');
     expect(score).toHaveTextContent('X: 1O: 0Draws: 0');
 });
 
@@ -255,7 +260,7 @@ test('Undo and Redo in the sidebar move back and forth through the game', () =>{
     fireEvent.click(screen.getByRole('button', { name: 'Undo' }));
     expect(pieceAt(container, 3, 3)).toEqual(null);
     expect(screen.getByText('Move 2 of 3')).toBeInTheDocument();
-    expect(screen.getByText('Next player: X')).toBeInTheDocument();
+    expect(statusMessage()).toHaveTextContent('Next player: X');
 
     fireEvent.click(screen.getByRole('button', { name: 'Redo' }));
     expect(pieceAt(container, 3, 3)).toEqual('X');

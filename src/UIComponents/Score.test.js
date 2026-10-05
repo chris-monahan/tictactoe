@@ -9,3 +9,9 @@ test('Shows the wins for each player and the draws', () =>{
     expect(score).toHaveTextContent('O: 1');
     expect(score).toHaveTextContent('Draws: 3');
 });
+
+test('Labels each player with their piece icon', () =>{
+    let { container } = render(<Score score={{ X: 2, O: 1, draws: 3 }} />);
+    expect(container.querySelector('.score-X .pieceIcon-X')).not.toBeNull();
+    expect(container.querySelector('.score-O .pieceIcon-O')).not.toBeNull();
+});

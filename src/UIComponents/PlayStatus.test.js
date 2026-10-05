@@ -2,6 +2,11 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import PlayStatus from './PlayStatus';
 import GridState from '../GridState';
 
+//the status message has the piece as an icon, so match on its whole text
+function statusMessage(){
+    return document.querySelector('.status-msg');
+}
+
 function getGrid(gridData){
     let grid = new GridState(gridData[0].length, gridData.length);
     grid.setGridData(gridData);
@@ -10,7 +15,7 @@ function getGrid(gridData){
 
 test('Shows whose turn is next', () =>{
     render(<PlayStatus gridState={new GridState(3,3)} xIsNext={false} onReset={() => {}} />);
-    expect(screen.getByText('Next player: O')).toBeInTheDocument();
+    expect(statusMessage()).toHaveTextContent('Next player: O');
 });
 
 test('Shows the winner', () =>{
@@ -18,7 +23,7 @@ test('Shows the winner', () =>{
                         ['X','X',null],
                         ['X',null,null]]);
     render(<PlayStatus gridState={grid} xIsNext={true} onReset={() => {}} />);
-    expect(screen.getByText('O is the winner!')).toBeInTheDocument();
+    expect(statusMessage()).toHaveTextContent('O is the winner!');
 });
 
 test('Shows a draw when the board is full', () =>{
@@ -61,7 +66,7 @@ test('When the game is over, only the result and Play again are shown', () =>{
                         ['X',null,null]]);
     render(<PlayStatus gridState={grid} xIsNext={true} onReset={() => {}} onPlayAgain={() => {}} />);
 
-    expect(screen.getByText('O is the winner!')).toBeInTheDocument();
+    expect(statusMessage()).toHaveTextContent('O is the winner!');
     expect(screen.getByRole('button', { name: 'Play again?' })).toBeInTheDocument();
     expect(screen.queryByAltText('reset')).toBeNull();
     expect(screen.getAllByRole('button').length).toEqual(1);
@@ -70,7 +75,7 @@ test('When the game is over, only the result and Play again are shown', () =>{
 test('During the game, the status and reset are shown but not Play again', () =>{
     render(<PlayStatus gridState={new GridState(3,3)} xIsNext={true} onReset={() => {}} onPlayAgain={() => {}} />);
 
-    expect(screen.getByText('Next player: X')).toBeInTheDocument();
+    expect(statusMessage()).toHaveTextContent('Next player: X');
     expect(screen.getByAltText('reset')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Play again?' })).toBeNull();
 });
@@ -96,10 +101,22 @@ test('The winner message is in the winner\'s colour, and a draw message is neutr
     let { rerender } = render(<PlayStatus gridState={getGrid([  ['O','O','O'],
                                                                 ['X','X',null],
                                                                 ['X',null,null]])} xIsNext={true} onReset={() => {}} onPlayAgain={() => {}} />);
-    expect(screen.getByText('O is the winner!')).toHaveClass('status-msg', 'status-msg-O');
+    expect(statusMessage()).toHaveTextContent('O is the winner!');
+    expect(statusMessage()).toHaveClass('status-msg', 'status-msg-O');
 
     rerender(<PlayStatus gridState={getGrid([   ['X','O','X'],
                                                 ['X','O','O'],
                                                 ['O','X','X']])} xIsNext={false} onReset={() => {}} onPlayAgain={() => {}} />);
     expect(screen.getByText("It's a draw!")).toHaveClass('status-msg', 'status-msg-draw');
+});
+
+test('Shows the next player and the winner as piece icons', () =>{
+    let { container, rerender } = render(<PlayStatus gridState={new GridState(3,3)} xIsNext={false} onReset={() => {}} />);
+    expect(container.querySelector('.status-msg .pieceIcon-O')).not.toBeNull();
+
+    let grid = getGrid([['X','X','X'],
+                        ['O','O',null],
+                        [null,null,null]]);
+    rerender(<PlayStatus gridState={grid} xIsNext={false} onReset={() => {}} onPlayAgain={() => {}} />);
+    expect(container.querySelector('.status-msg-X .pieceIcon-X')).not.toBeNull();
 });

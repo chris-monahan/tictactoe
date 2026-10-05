@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The cross from cross.svg, cropped tight and with a lighter stroke, to sit in a line of text -->
+<svg viewBox="0 0 20 20">
+    <path fill="none" stroke-width="2.1" stroke-linecap="round" d="M 3.2,3.2 L 16.8,16.8 M 16.8,3.2 L 3.2,16.8"/>
+</svg>
