@@ -4,25 +4,27 @@ import checkWinner from "../checkWinner.fn"
 function PlayStatus({ gridState, xIsNext, onReset, onPlayAgain }) {
 
     const winner = checkWinner(gridState);
-    let status;
-    let gameOver = true;
-    if (winner) {      
-        status = winner + " is the winner!";    
-      } else if(gridState.findEmptySquares().length === 0) {
-        status = "It's a draw!"
-      }
-        else{      
-        status = 'Next player: ' + (xIsNext ? 'X' : 'O');    
-        gameOver = false;
-      }
+    const gameOver = winner || gridState.findEmptySquares().length === 0;
 
+    //Both states share one fixed-height panel, so switching between them moves nothing
+    //(the board was sized while the game was on)
+    if (gameOver) {
       return <div id="playStatus">
+          <hr />
+          <div className="status-panel game-over">
+            <span className={"status-msg status-msg-" + (winner ? winner : "draw")}>{winner ? winner + " is the winner!" : "It's a draw!"}</span>
+            <button className={"play-again-btn play-again-" + (winner ? winner : "draw")} onClick={()=>{onPlayAgain()}}>Play again?</button>
+          </div>
+        </div>
+    }
+
+    return <div id="playStatus">
         <hr />
-            <span className="status-msg">{status}</span>
-            {gameOver &&
-            <button className="play-again-btn" onClick={()=>{onPlayAgain()}}>Play again?</button>}
-            <button id="reset-btn" onClick={()=>{onReset()}}><img alt="reset" src="reset.svg"></img></button>
-        </div>    
+        <div className="status-panel">
+          <span className="status-msg">{'Next player: ' + (xIsNext ? 'X' : 'O')}</span>
+          <button id="reset-btn" onClick={()=>{onReset()}}><img alt="reset" src="reset.svg"></img></button>
+        </div>
+      </div>
   }
 
   export default PlayStatus;

@@ -222,3 +222,13 @@ test('The sidebar toggle is the same single button whether open or closed', () =
     expect(container.querySelector('.sidebarToggle')).toBe(toggle);
     expect(toggle.getAttribute('aria-expanded')).not.toEqual(wasExpanded);
 });
+
+test('At the end of a game Play again replaces the reset button, and reset returns for the next game', () =>{
+    let { container } = render(<Game sizeX={3} sizeY={3} />);
+
+    playMoves(container, xWins);
+    expect(screen.queryByAltText('reset')).toBeNull();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Play again?' }));
+    expect(screen.getByAltText('reset')).toBeInTheDocument();
+});

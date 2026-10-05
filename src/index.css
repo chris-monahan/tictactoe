@@ -147,41 +147,131 @@ body{
 }
 
 #playStatus hr{
-  margin-top:2em;
-  margin-bottom:1em;
+  margin-top:1em;
+  margin-bottom:0.5em;
   border: 0px;
   height: 2px;
   background-image: linear-gradient(90deg, whitesmoke, grey, black, grey, whitesmoke);
 }
 
+.status-panel{
+  position: relative;
+  box-sizing: border-box;
+  height: 6em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+}
+
 #playStatus .status-msg{
   font-size:2em;
-  margin:10px;
-  vertical-align: middle;
+  line-height: 1.15;
 }
 
-/* No taller than the status text beside it, so the line doesn't grow when it appears
-   (the board was sized before the game ended) */
+/* The winner's message is in their colour, like the Play again button below it */
+#playStatus .status-msg-X{
+  color: var(--cross-piece-col);
+}
+
+#playStatus .status-msg-O{
+  color: var(--nought-piece-col);
+}
+
+/* The end of game message and button ease in rather than just appearing */
+.status-panel.game-over{
+  animation: status-panel-in 0.35s ease-out;
+}
+
+@keyframes status-panel-in{
+  from{
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to{
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Sharp-cornered button in the winner's colour: full-colour text on a light tint of it (a layer
+   behind the text filled with the text colour at low opacity). On hover or keyboard focus the tint
+   deepens slightly and the button grows a touch; it presses in when clicked */
 #playStatus .play-again-btn{
-  margin: 0 10px;
-  padding: 0.25em 0.8em;
+  position: relative;
+  isolation: isolate;
+  padding: 0.45em 1.6em;
   font: inherit;
-  font-size: 1.4em;
-  line-height: 1;
-  vertical-align: middle;
-  color: white;
-  background: black;
+  font-size: 1.3em;
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+  color: black;
+  background: transparent;
   border: 0px;
-  border-radius: 4px;
+  border-radius: 0px;
   cursor: pointer;
+  transition: transform 0.15s ease-out;
 }
 
-#playStatus .play-again-btn:hover{
-  background: dimgrey;
+#playStatus .play-again-btn.play-again-X{
+  color: var(--cross-piece-col);
+}
+
+#playStatus .play-again-btn.play-again-O{
+  color: var(--nought-piece-col);
+}
+
+#playStatus .play-again-btn::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: currentColor;
+  opacity: 0.12;
+  transition: opacity 0.15s ease-out;
+}
+
+#playStatus .play-again-btn:hover,
+#playStatus .play-again-btn:focus-visible{
+  transform: scale(1.04);
+}
+
+#playStatus .play-again-btn:hover::before,
+#playStatus .play-again-btn:focus-visible::before{
+  opacity: 0.2;
+}
+
+#playStatus .play-again-btn:focus-visible{
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+#playStatus .play-again-btn:active{
+  transform: scale(0.98);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .status-panel.game-over,
+  #playStatus .play-again-btn,
+  #playStatus .play-again-btn::before{
+    animation: none;
+    transition: none;
+  }
+
+  /* keep the tint change but not the size shift */
+  #playStatus .play-again-btn:hover,
+  #playStatus .play-again-btn:focus-visible,
+  #playStatus .play-again-btn:active{
+    transform: none;
+  }
 }
 
 #playStatus #reset-btn{
-  float:right;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
   background:transparent;
   border:0px;
   outline:0px;

@@ -9,7 +9,7 @@ I'm considering future ambitions to develop this into a suite of classic board g
 - Two players take turns on one device, X first.
 - Any board size, square or not (set in `src/config.js`). A line as long as the board's shorter side wins.
 - A line is drawn through the winning pieces.
-- A "Play again?" button once a game is won or drawn, plus a reset button at any time.
+- When a game ends, the result and a "Play again?" button (both in the winner's colour) replace the status under the board. A reset button is there during play.
 - A running score of X wins, O wins and draws. It lasts until the page is reloaded.
 - A history sidebar, opened with the floating button in the top-right corner. It shows a small picture of the board after every move, highlights the move being shown, and jumps back to any move when clicked.
 - The board resizes to fit the window and stays centred. The sidebar opens over the page, so it never moves or shrinks the board.
