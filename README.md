@@ -37,6 +37,7 @@ Everything is in `src/config.js`:
 | --- | --- |
 | `board.sizeX`, `board.sizeY` | Board width and height in squares. The winning line length is the shorter of the two. |
 | `board.crossColor`, `board.noughtColor` | Colours of the X and O pieces, their mini-board pictures, their winning lines and their scores. |
+| `board.sizing` | How much of the available space the board may take up. Its width share slides from `narrowWidthShare` on windows `narrowScreenWidth` px wide or less to `wideWidthShare` at `wideScreenWidth` px and wider. Its height share is always `heightShare`. |
 | `sidebar.enabled` | Whether there is a sidebar (and its toggle button) at all. |
 | `sidebar.components` | Which panels the sidebar shows, in order. Each name is looked up in `src/UIComponents/Sidebar.js`. `'history'` is the only one so far. |
 
@@ -49,8 +50,7 @@ Everything is in `src/config.js`:
 - `src/UIComponents/Game.js` owns the game state: the live grid, the history of moves, whose turn it is, the score and whether the sidebar is open.
 - `src/UIComponents/Board.js` draws the squares, then draws the grid lines and any winning lines as SVGs laid over the grid. The SVGs work in grid units (one unit per square), so they line up at any board size or shape.
 - `src/adjustBoardSize.fn.js` sizes the squares to fit the window:
-  - up to 75% of the available height;
-  - up to 85% of the available width on screens 500px wide or less (every phone held upright), sliding evenly down to 75% at 1000px wide and above;
+  - up to 85% of the available width on screens 500px wide or less (every phone held upright), sliding evenly down to 75% at 1000px wide and above, and up to 75% of the height. All of these numbers are in `config.board.sizing`;
   - squares keep a 1.1:1 width-to-height ratio.
 - The sidebar is `Sidebar.js`, plus one component per panel, e.g. `HistoryPanel.js` with `MiniBoard.js`.
 

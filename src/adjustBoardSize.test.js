@@ -1,7 +1,8 @@
 import adjustBoardSize from './adjustBoardSize.fn.js'
+import config from './config';
 
-//Configure a 4 wide x 3 tall board
-jest.mock('./config', () => ({ board: { sizeX: 4, sizeY: 3 } }));
+//Configure a 4 wide x 3 tall board, with the real sizing settings
+jest.mock('./config', () => ({ board: { sizeX: 4, sizeY: 3, sizing: { ...jest.requireActual('./config').default.board.sizing } } }));
 
 function setUpContainer(width, height){
     document.body.innerHTML = '<div id="game-board-container"></div>';
@@ -103,4 +104,24 @@ describe('Board width allowance by screen size', () =>{
         //320 * 0.75 / 4 squares
         expect(getSquareSize()[0]).toBeCloseTo(60);
     });
+});
+
+test('The sizing settings come from config', () =>{
+    let defaults = { ...config.board.sizing };
+    config.board.sizing.narrowWidthShare = 0.5;
+    config.board.sizing.heightShare = 0.5;
+
+    window.innerWidth = 390;
+    setUpContainer(320, 2000);
+    adjustBoardSize();
+    //320 * 0.5 / 4 squares
+    expect(getSquareSize()[0]).toBeCloseTo(40);
+
+    setUpContainer(2000, 300);
+    adjustBoardSize();
+    //300 * 0.5 / 3 squares, as the square height
+    expect(getSquareSize()[1]).toBeCloseTo(50);
+
+    config.board.sizing = defaults;
+    window.innerWidth = 1024;
 });
