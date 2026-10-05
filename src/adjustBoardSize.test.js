@@ -72,6 +72,29 @@ describe('Board width allowance by screen size', () =>{
         expect(getSquareSize()[0]).toBeCloseTo(68);
     });
 
+    test('Between 500px and 1000px wide the allowance slides from 85% to 75%', () =>{
+        window.innerWidth = 750;
+        setUpContainer(320, 2000);
+        adjustBoardSize();
+
+        //halfway, so 80%: 320 * 0.8 / 4 squares
+        expect(getSquareSize()[0]).toBeCloseTo(64);
+    });
+
+    test('The board never gets smaller as the window gets wider', () =>{
+        let previousWidth = 0;
+        for(let windowWidth = 300; windowWidth <= 1400; windowWidth += 10){
+            window.innerWidth = windowWidth;
+            //the container is the window less the page's padding
+            setUpContainer(windowWidth - 32, 5000);
+            adjustBoardSize();
+
+            let boardWidth = getSquareSize()[0] * 4;
+            expect(boardWidth).toBeGreaterThanOrEqual(previousWidth);
+            previousWidth = boardWidth;
+        }
+    });
+
     test('On a larger screen the board uses 75% of the width', () =>{
         window.innerWidth = 1024;
         setUpContainer(320, 2000);

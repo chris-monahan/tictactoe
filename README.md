@@ -49,8 +49,8 @@ Everything is in `src/config.js`:
 - `src/UIComponents/Game.js` owns the game state: the live grid, the history of moves, whose turn it is, the score and whether the sidebar is open.
 - `src/UIComponents/Board.js` draws the squares, then draws the grid lines and any winning lines as SVGs laid over the grid. The SVGs work in grid units (one unit per square), so they line up at any board size or shape.
 - `src/adjustBoardSize.fn.js` sizes the squares to fit the window:
-  - up to 75% of the available width and height;
-  - 85% of the width on screens narrower than 700px;
+  - up to 75% of the available height;
+  - up to 85% of the available width on screens 500px wide or less (every phone held upright), sliding evenly down to 75% at 1000px wide and above;
   - squares keep a 1.1:1 width-to-height ratio.
 - The sidebar is `Sidebar.js`, plus one component per panel, e.g. `HistoryPanel.js` with `MiniBoard.js`.
 

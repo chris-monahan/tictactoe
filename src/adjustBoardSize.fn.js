@@ -1,12 +1,22 @@
 import config from "./config";
 
-//Below this window width (i.e. phones) the board may use more of the width available
-const mobileScreenWidth = 700;
+//The board may use more of the width on narrow screens: 85% at or below 500px wide (every phone
+//held upright), 75% at or above 1000px, sliding evenly in between so the size never jumps
+const narrowScreenWidth = 500;
+const wideScreenWidth = 1000;
+const narrowWidthLimit = 0.85;
+const wideWidthLimit = 0.75;
+
+function widthLimitFor(windowWidth){
+    let progress = (windowWidth - narrowScreenWidth) / (wideScreenWidth - narrowScreenWidth);
+    progress = Math.min(Math.max(progress, 0), 1);
+    return narrowWidthLimit + (wideWidthLimit - narrowWidthLimit) * progress;
+}
 
 function adjustBoardSize(){
     let docRoot = document.documentElement;
     let containingElement = document.getElementById("game-board-container")
-    let boardWidthLimitOffset = window.innerWidth < mobileScreenWidth ? 0.85 : 0.75;
+    let boardWidthLimitOffset = widthLimitFor(window.innerWidth);
     let boardHeightLimitOffset = 0.75;
 
     if(containingElement !== null){
