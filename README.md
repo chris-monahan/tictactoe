@@ -11,7 +11,7 @@ I'm considering future ambitions to develop this into a suite of classic board g
 - A line is drawn through the winning pieces.
 - When a game ends, the result and a "Play again?" button (both in the winner's colour) replace the status under the board. A reset button is there during play.
 - A running score of X wins, O wins and draws. It lasts until the page is reloaded.
-- A history sidebar that slides in from the "History" tab on the right edge of the screen. While it's open, a close arrow sits over the tab's old spot, so a second tap there closes it. It shows a small picture of the board after every move, highlights the move being shown, and jumps back to any move when clicked.
+- A history sidebar that slides in from the "History" tab on the right edge of the screen. While it's open, a close arrow sits over the tab's old spot, so a second tap there closes it. It shows a small picture of the board after every move, highlights the move being shown, and jumps back to any move when clicked. Undo and Redo buttons step back and forward one move at a time, beside a "Move 3 of 5" counter.
 - The board resizes to fit the window and stays centred. The sidebar opens over the page, so it never moves or shrinks the board.
 
 ## Running it

@@ -243,3 +243,21 @@ test('At the end of a game Play again replaces the reset button, and reset retur
     fireEvent.click(screen.getByRole('button', { name: 'Play again?' }));
     expect(screen.getByAltText('reset')).toBeInTheDocument();
 });
+
+test('Undo and Redo in the sidebar move back and forth through the game', () =>{
+    let { container } = render(<Game sizeX={3} sizeY={3} />);
+    openSidebar();
+    clickSquare(container, 1, 1);
+    clickSquare(container, 2, 2);
+    clickSquare(container, 3, 3);
+    expect(screen.getByText('Move 3 of 3')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Undo' }));
+    expect(pieceAt(container, 3, 3)).toEqual(null);
+    expect(screen.getByText('Move 2 of 3')).toBeInTheDocument();
+    expect(screen.getByText('Next player: X')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Redo' }));
+    expect(pieceAt(container, 3, 3)).toEqual('X');
+    expect(screen.getByText('Move 3 of 3')).toBeInTheDocument();
+});

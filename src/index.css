@@ -329,16 +329,75 @@ body{
   width: 4em;
   height: 4em;
 }
+/* Only the list of steps scrolls, so the heading and the Undo/Redo row stay in view */
+.sidebarHistory {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 /* Level with the close button, and clear of it */
 .sidebarHistory h2 {
   margin: calc(var(--sidebar-close-top) - 10px) var(--sidebar-close-size) 12px 0;
   line-height: var(--sidebar-close-size);
 }
 
+.historyControls {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.historyCounter {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.historyStepBtn {
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 10px;
+  font: inherit;
+  background: white;
+  border: 2px solid black;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.historyStepBtn svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.historyStepBtn:hover {
+  background: whitesmoke;
+}
+
+.historyStepBtn[aria-disabled="true"] {
+  color: #aaa;
+  border-color: #ccc;
+  background: white;
+  cursor: default;
+}
+
+/* A little padding so the current step's border and focus rings aren't clipped by the scrolling */
 .historyList {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
   list-style: none;
-  margin: 0;
-  padding: 0;
+  margin: 0 -4px;
+  padding: 0 4px;
 }
 
 .historyBtn {

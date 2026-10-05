@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 import HistoryPanel from './HistoryPanel';
 
 const history = [
@@ -28,7 +28,7 @@ test('Each step shows a picture of the board', () =>{
 
 test('Highlights the step being shown', () =>{
     render(<HistoryPanel history={history} stepNumber={1} onJump={() => {}} />);
-    let buttons = screen.getAllByRole('button');
+    let buttons = within(screen.getByRole('list')).getAllByRole('button');
 
     expect(buttons[1]).toHaveAttribute('aria-current', 'step');
     expect(buttons[0]).not.toHaveAttribute('aria-current');
@@ -39,6 +39,43 @@ test('Clicking a step jumps to it', () =>{
     let onJump = jest.fn();
     render(<HistoryPanel history={history} stepNumber={2} onJump={onJump} />);
 
-    fireEvent.click(screen.getAllByRole('button')[0]);
+    fireEvent.click(within(screen.getByRole('list')).getAllByRole('button')[0]);
     expect(onJump).toHaveBeenCalledWith(0);
+});
+
+test('Shows which move is being shown, out of how many', () =>{
+    let { rerender } = render(<HistoryPanel history={history} stepNumber={1} onJump={() => {}} />);
+    expect(screen.getByText('Move 1 of 2')).toBeInTheDocument();
+
+    rerender(<HistoryPanel history={history} stepNumber={0} onJump={() => {}} />);
+    expect(screen.getByText('Move 0 of 2')).toBeInTheDocument();
+});
+
+test('Undo and Redo step back and forward one move', () =>{
+    let onJump = jest.fn();
+    render(<HistoryPanel history={history} stepNumber={1} onJump={onJump} />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Undo' }));
+    expect(onJump).toHaveBeenLastCalledWith(0);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Redo' }));
+    expect(onJump).toHaveBeenLastCalledWith(2);
+});
+
+test('Undo is unavailable at the start and Redo at the latest move', () =>{
+    let onJump = jest.fn();
+    let { rerender } = render(<HistoryPanel history={history} stepNumber={0} onJump={onJump} />);
+    let undo = screen.getByRole('button', { name: 'Undo' });
+    let redo = screen.getByRole('button', { name: 'Redo' });
+
+    expect(undo).toHaveAttribute('aria-disabled', 'true');
+    expect(redo).not.toHaveAttribute('aria-disabled', 'true');
+    fireEvent.click(undo);
+    expect(onJump).not.toHaveBeenCalled();
+
+    rerender(<HistoryPanel history={history} stepNumber={2} onJump={onJump} />);
+    expect(undo).not.toHaveAttribute('aria-disabled', 'true');
+    expect(redo).toHaveAttribute('aria-disabled', 'true');
+    fireEvent.click(redo);
+    expect(onJump).not.toHaveBeenCalled();
 });
